@@ -106,10 +106,12 @@ extension Instance {
     }
     
     public func renameAsync(to newName: String) {
-        let oldName = self.name
+        let oldName = name
+        let original = self.getPath()
+        
         DispatchQueue.global(qos: .userInteractive).async {
             // TODO: handle the errors
-            let original = self.getPath()
+            
             do {
                 try FileManager.default.copyItem(at: original, to: Instance.getInstancePath(for: newName))
             } catch {
@@ -117,18 +119,19 @@ extension Instance {
                 ErrorTracker.instance.error(error: error, description: "Error copying instance \(self.name) during rename")
                 return
             }
+            
             DispatchQueue.main.async {
                 self.name = newName
-                DispatchQueue.global(qos: .userInteractive).async {
-                    do {
-                        try FileManager.default.removeItem(at: original)
-                    } catch {
-                        logger.error("Error deleting old instance \(self.name) during rename", error: error)
-                        ErrorTracker.instance.error(error: error, description: "Error deleting old instance \(self.name) during rename")
-                    }
-                }
-                logger.info("Successfully renamed instance \(oldName) to \(newName)")
             }
+            
+            do {
+                try FileManager.default.removeItem(at: original)
+            } catch {
+                logger.error("Error deleting old instance \(self.name) during rename", error: error)
+                ErrorTracker.instance.error(error: error, description: "Error deleting old instance \(self.name) during rename")
+            }
+            
+            logger.info("Successfully renamed instance \(oldName) to \(newName)")
         }
     }
 }
