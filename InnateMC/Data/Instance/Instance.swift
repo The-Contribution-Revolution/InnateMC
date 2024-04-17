@@ -295,7 +295,7 @@ public class Instance: Identifiable, Hashable, InstanceData, ObservableObject {
                 }
                 
                 DispatchQueue.main.async {
-                    self.mods = urls.deserializeToMods()
+                    self.worlds = urls.deserializeToWorlds()
                 }
             }
         }
