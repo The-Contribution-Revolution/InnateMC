@@ -33,26 +33,39 @@ extension Instance {
         return try decoder.decode(Instance.self, from: data)
     }
     
-    public static func loadFromDirectory(_ url: URL) throws -> Instance {
-        return try deserialize(FileHandler.getData(url.appendingPathComponent("Instance.plist"))!, path: url)
+    static func loadFromDirectory(_ url: URL) throws -> Instance {
+        guard let data = try FileHandler.getData(url.appendingPathComponent("Instance.plist")) else {
+            throw NSError(domain: "", code: 228, userInfo: nil) // TODO
+        }
+        
+        return try deserialize(data, path: url)
     }
     
     public static func loadInstances() throws -> [Instance] {
         var instances: [Instance] = []
+        
         let directoryContents: [URL] = try FileManager.default.contentsOfDirectory(
             at: FileHandler.instancesFolder,
             includingPropertiesForKeys: nil
         )
+        
         for url in directoryContents {
             if !url.hasDirectoryPath {
                 continue
             }
+            
             if !url.lastPathComponent.hasSuffix(".innate") {
                 continue
             }
+            
             let instance: Instance
+            
             do {
-                instance = try Instance.loadFromDirectory(url)
+                let loadedInstance = try Instance.loadFromDirectory(url)
+                
+                loadedInstance.name = url.deletingPathExtension().lastPathComponent
+                
+                instance = loadedInstance
             } catch {
                 logger.error("Error loading instance at \(url.path)", error: error)
                 ErrorTracker.instance.error(error: error, description: "Error loading instance at \(url.path)")

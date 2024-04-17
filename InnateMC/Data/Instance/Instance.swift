@@ -72,7 +72,6 @@ public class Instance: Identifiable, Hashable, InstanceData, ObservableObject {
     
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(name, forKey: .name)
         try container.encode(assetIndex, forKey: .assetIndex)
         try container.encode(libraries, forKey: .libraries)
         try container.encode(mainClass, forKey: .mainClass)
@@ -89,7 +88,7 @@ public class Instance: Identifiable, Hashable, InstanceData, ObservableObject {
     
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        name = try container.decode(String.self, forKey: .name)
+        name = ""
         assetIndex = try container.decode(PartialAssetIndex.self, forKey: .assetIndex)
         libraries = try container.decode([LibraryArtifact].self, forKey: .libraries)
         mainClass = try container.decode(String.self, forKey: .mainClass)
@@ -105,7 +104,6 @@ public class Instance: Identifiable, Hashable, InstanceData, ObservableObject {
     }
     
     private enum CodingKeys: String, CodingKey {
-        case name
         case assetIndex
         case libraries
         case mainClass
@@ -119,6 +117,7 @@ public class Instance: Identifiable, Hashable, InstanceData, ObservableObject {
         case lastPlayed
         case preferences
         case arguments
+        
         // Legacy
         case startOnFirstThread
         case gameArguments
