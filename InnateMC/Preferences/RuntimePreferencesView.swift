@@ -21,7 +21,7 @@ struct RuntimePreferencesView: View {
     @EnvironmentObject var launcherData: LauncherData
     @State var cachedDefaultJava: SavedJavaInstallation = SavedJavaInstallation.systemDefault
     @State var showFileImporter: Bool = false
-
+    
     var body: some View {
         VStack {
             Form {
@@ -45,7 +45,7 @@ struct RuntimePreferencesView: View {
                 self.cachedDefaultJava = $0
                 logger.debug("Default java runtime changed to \($0.javaExecutable)")
             })
-            .padding([.leading, .trailing, .top], 16.0)
+            .padding([.leading, .trailing, .top], 16)
             .padding(.bottom, 5)
             Table(of: SavedJavaInstallation.self, selection: Binding(get: {
                 return launcherData.globalPreferences.runtime.defaultJava
@@ -94,8 +94,6 @@ struct PickableJavaVersion: View {
     }
 }
 
-struct RuntimePreferencesView_Previews: PreviewProvider {
-    static var previews: some View {
-        RuntimePreferencesView()
-    }
+#Preview {
+    RuntimePreferencesView()
 }

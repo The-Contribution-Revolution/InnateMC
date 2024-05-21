@@ -16,7 +16,6 @@
 //
 
 import Foundation
-import Darwin
 
 struct MicrosoftAccount: MinecraftAccount {
     private static let decoder = JSONDecoder()

@@ -30,7 +30,7 @@ struct AccountsPreferencesView: View {
             Table(cachedAccountsOnly, selection: $selectedAccountIds) {
                 TableColumn(i18n("name"), value: \.username)
                 TableColumn(i18n("type"), value: \.type.rawValue)
-                .width(max: 100)
+                    .width(max: 100)
             }
             
             HStack {
@@ -102,10 +102,8 @@ struct AccountsPreferencesView: View {
     }
 }
 
-struct AccountsPreferencesView_Previews: PreviewProvider {
-    static var previews: some View {
-        AccountsPreferencesView()
-    }
+#Preview {
+    AccountsPreferencesView()
 }
 
 class AdaptedAccount: Identifiable {

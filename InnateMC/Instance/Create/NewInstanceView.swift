@@ -16,6 +16,7 @@
 //
 
 import SwiftUI
+
 struct NewInstanceView: View {
     @Binding var showNewInstanceSheet: Bool
     
@@ -25,22 +26,20 @@ struct NewInstanceView: View {
                 .tabItem {
                     Text(i18n("vanilla"))
                 }
-//            TodoView()
-//                .tabItem {
-//                    Text(i18n("modrinth"))
-//                }
-//            TodoView()
-//                .tabItem {
-//                    Text(i18n("import"))
-//                }
+            //            TodoView()
+            //                .tabItem {
+            //                    Text(i18n("modrinth"))
+            //                }
+            //            TodoView()
+            //                .tabItem {
+            //                    Text(i18n("import"))
+            //                }
         }
         .border(.red, width: 0)
-        .padding(.all, 14.0)
+        .padding(.all, 14)
     }
 }
 
-struct NewInstanceView_Previews: PreviewProvider {
-    static var previews: some View {
-        NewInstanceView(showNewInstanceSheet: Binding.constant(true))
-    }
+#Preview {
+    NewInstanceView(showNewInstanceSheet: Binding.constant(true))
 }

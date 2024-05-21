@@ -31,7 +31,7 @@ struct NewVanillaInstanceView: View {
     @State var showNoNamePopover = false
     @State var showDuplicateNamePopover = false
     @State var showInvalidVersionPopover = false
-
+    
     var body: some View {
         VStack {
             Spacer()
@@ -143,8 +143,6 @@ struct NewVanillaInstanceView: View {
     }
 }
 
-struct NewVanillaInstanceView_Previews: PreviewProvider {
-    static var previews: some View {
-        NewVanillaInstanceView(showNewInstanceSheet: Binding.constant(true))
-    }
+#Preview {
+    NewVanillaInstanceView(showNewInstanceSheet: Binding.constant(true))
 }

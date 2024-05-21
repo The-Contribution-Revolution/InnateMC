@@ -15,8 +15,6 @@
 // along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
 //
 
-import Foundation
-
 public func setting<T>(_ path: KeyPath<GlobalPreferences, T>) -> T {
     return LauncherData.instance.globalPreferences[keyPath: path]
 }

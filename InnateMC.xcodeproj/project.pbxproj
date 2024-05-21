@@ -103,7 +103,6 @@
 		64C334D92922523600BB8570 /* InnateMCApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C334D82922523600BB8570 /* InnateMCApp.swift */; };
 		64C334DB2922523600BB8570 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C334DA2922523600BB8570 /* ContentView.swift */; };
 		64C334DD2922523F00BB8570 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64C334DC2922523F00BB8570 /* Assets.xcassets */; };
-		64C334E02922523F00BB8570 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64C334DF2922523F00BB8570 /* Preview Assets.xcassets */; };
 		64C33505292252B500BB8570 /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C33504292252B500BB8570 /* PreferencesView.swift */; };
 		64C33507292256C500BB8570 /* TodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C33506292256C500BB8570 /* TodoView.swift */; };
 		64C33509292272F600BB8570 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 64C33508292272F500BB8570 /* .gitignore */; };
@@ -220,7 +219,6 @@
 		648445872A10DE9200049986 /* MinecraftProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinecraftProfile.swift; sourceTree = "<group>"; };
 		648445892A10F69600049986 /* AccountManager+Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AccountManager+Storage.swift"; sourceTree = "<group>"; };
 		6484458B2A10F6BC00049986 /* AccountManager+Server.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AccountManager+Server.swift"; sourceTree = "<group>"; };
-		648C831129DB375400007603 /* InnateMC-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "InnateMC-Bridging-Header.h"; sourceTree = "<group>"; };
 		648C831529DBDD6A00007603 /* libzip.5.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzip.5.5.dylib; path = ../../../../../usr/local/lib/libzip.5.5.dylib; sourceTree = "<group>"; };
 		648C831E29DBEE9900007603 /* libzip.5.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzip.5.5.dylib; path = ../../../Desktop/libzip.5.5.dylib; sourceTree = "<group>"; };
 		648EDF502A1881CE00E40B03 /* PartialVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialVersion.swift; sourceTree = "<group>"; };
@@ -253,7 +251,6 @@
 		64C334D82922523600BB8570 /* InnateMCApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InnateMCApp.swift; sourceTree = "<group>"; };
 		64C334DA2922523600BB8570 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		64C334DC2922523F00BB8570 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		64C334DF2922523F00BB8570 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		64C334E12922523F00BB8570 /* InnateMC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = InnateMC.entitlements; sourceTree = "<group>"; };
 		64C33504292252B500BB8570 /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
 		64C33506292256C500BB8570 /* TodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoView.swift; sourceTree = "<group>"; };
@@ -593,7 +590,6 @@
 		64C334D72922523600BB8570 /* InnateMC */ = {
 			isa = PBXGroup;
 			children = (
-				648C831129DB375400007603 /* InnateMC-Bridging-Header.h */,
 				64F7C5EA297D63800086ABC1 /* Data */,
 				644DE1D22937C13F00C4A03E /* Instance */,
 				6416784F2923B6450012C9CC /* Preferences */,
@@ -606,18 +602,9 @@
 				64E459F22938C7AC00F82A2B /* LauncherData.swift */,
 				64C334DC2922523F00BB8570 /* Assets.xcassets */,
 				64C334E12922523F00BB8570 /* InnateMC.entitlements */,
-				64C334DE2922523F00BB8570 /* Preview Content */,
 				64DC9E4A29E67427005DE585 /* Localizable.strings */,
 			);
 			path = InnateMC;
-			sourceTree = "<group>";
-		};
-		64C334DE2922523F00BB8570 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				64C334DF2922523F00BB8570 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 		64F7C5EA297D63800086ABC1 /* Data */ = {
@@ -828,7 +815,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				64DC9E4829E67427005DE585 /* Localizable.strings in Resources */,
-				64C334E02922523F00BB8570 /* Preview Assets.xcassets in Resources */,
 				64C33509292272F600BB8570 /* .gitignore in Resources */,
 				64C3350C2922B0B500BB8570 /* LICENSE in Resources */,
 				64C334DD2922523F00BB8570 /* Assets.xcassets in Resources */,
@@ -1174,7 +1160,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_ASSET_PATHS = "\"InnateMC/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -1203,7 +1189,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "InnateMC/InnateMC-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "Semantic Versioning";
@@ -1223,7 +1208,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_ASSET_PATHS = "\"InnateMC/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -1248,7 +1233,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "InnateMC/InnateMC-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "Semantic Versioning";
 			};

@@ -15,8 +15,6 @@
 // along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
 //
 
-import Foundation
-
 public struct SFSymbols13List {
     public static func getAll() -> [String] {
         return [

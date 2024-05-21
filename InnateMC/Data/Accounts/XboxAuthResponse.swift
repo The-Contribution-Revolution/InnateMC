@@ -15,8 +15,6 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/
 //
 
-import Foundation
-
 /// JSON response for both Xbox Live and XSTS Authentication
 struct XboxAuthResponse: Codable {
     var issueInstant: String

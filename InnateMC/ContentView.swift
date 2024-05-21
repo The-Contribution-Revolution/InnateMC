@@ -16,7 +16,6 @@
 //
 
 import SwiftUI
-import AppKit
 
 struct ContentView: View {
     private static let nullUuid = UUID(uuidString: "00000000-0000-0000-0000-000000000000")!
@@ -36,10 +35,11 @@ struct ContentView: View {
         NavigationView {
             VStack {
                 TextField(i18n("search"), text: $searchTerm)
-                    .padding(.trailing, 8.0)
-                    .padding(.leading, 10.0)
-                    .padding([.top, .bottom], 9.0)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding(.trailing, 8)
+                    .padding(.leading, 10)
+                    .padding([.top, .bottom], 9)
+                    .textFieldStyle(.roundedBorder)
+                
                 List(selection: $selectedInstance) {
                     ForEach(launcherData.instances) { instance in
                         if ((!starredOnly || instance.isStarred) && instance.matchesSearchTerm(searchTerm)) {
@@ -68,9 +68,9 @@ struct ContentView: View {
             .sheet(isPresented: $showDuplicateInstanceSheet) {
                 InstanceDuplicationSheet(showDuplicationSheet: $showDuplicateInstanceSheet, instance: self.selectedInstance!)
             }
-            .sheet(isPresented: $showExportInstanceSheet, content: {
+            .sheet(isPresented: $showExportInstanceSheet) {
                 InstanceExportSheet(showExportSheet: $showExportInstanceSheet, instance: self.selectedInstance!)
-            })
+            }
             .onReceive(launcherData.$instances) { newValue in
                 if let selectedInstance = self.selectedInstance {
                     if !newValue.contains(where: { $0 == selectedInstance }) {

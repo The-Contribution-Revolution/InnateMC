@@ -36,70 +36,70 @@ public struct SymbolPicker: View {
     private let symbols = SFSymbolsList.getAll()
     
     private static var gridDimension: CGFloat {
-        #if os(iOS)
+#if os(iOS)
         return 64
-        #elseif os(tvOS)
+#elseif os(tvOS)
         return 128
-        #elseif os(macOS)
+#elseif os(macOS)
         return 48
-        #else
+#else
         return 48
-        #endif
+#endif
     }
-
+    
     private static var symbolSize: CGFloat {
-        #if os(iOS)
+#if os(iOS)
         return 24
-        #elseif os(tvOS)
+#elseif os(tvOS)
         return 48
-        #elseif os(macOS)
+#elseif os(macOS)
         return 24
-        #else
+#else
         return 24
-        #endif
+#endif
     }
-
+    
     private static var symbolCornerRadius: CGFloat {
-        #if os(iOS)
+#if os(iOS)
         return 8
-        #elseif os(tvOS)
+#elseif os(tvOS)
         return 12
-        #elseif os(macOS)
+#elseif os(macOS)
         return 8
-        #else
+#else
         return 8
-        #endif
+#endif
     }
-
+    
     private static var unselectedItemBackgroundColor: Color {
-        #if os(iOS)
+#if os(iOS)
         return Color(UIColor.systemBackground)
-        #else
+#else
         return .clear
-        #endif
+#endif
     }
-
+    
     private static var selectedItemBackgroundColor: Color {
-        #if os(tvOS)
+#if os(tvOS)
         return Color.gray.opacity(0.3)
-        #else
+#else
         return Color.accentColor
-        #endif
+#endif
     }
-
+    
     private static var backgroundColor: Color {
-        #if os(iOS)
+#if os(iOS)
         return Color(UIColor.systemGroupedBackground)
-        #else
+#else
         return .clear
-        #endif
+#endif
     }
-
+    
     // MARK: - Properties
     @Binding public var symbol: String
     @State private var searchText = ""
     @Environment(\.presentationMode) private var presentationMode
-
+    
     // MARK: - Public Init
     /// Initializes `SymbolPicker` with a string binding that captures the raw value of
     /// user-selected SFSymbol.
@@ -107,12 +107,11 @@ public struct SymbolPicker: View {
     public init(symbol: Binding<String>) {
         _symbol = symbol
     }
-
+    
     // MARK: - View Components
-    @ViewBuilder
     private var searchableSymbolGrid: some View {
-        #if os(iOS)
-        if #available(iOS 15.0, *) {
+#if os(iOS)
+        if #available(iOS 15, *) {
             symbolGrid
                 .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
         } else {
@@ -121,15 +120,15 @@ public struct SymbolPicker: View {
                     .padding(8)
                     .padding(.horizontal, 8)
                     .background(Color(UIColor.systemGray5))
-                    .cornerRadius(8.0)
-                    .padding(.horizontal, 16.0)
+                    .cornerRadius(8)
+                    .padding(.horizontal, 16)
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
                 symbolGrid
                     .padding()
             }
         }
-        #elseif os(tvOS)
+#elseif os(tvOS)
         VStack {
             TextField(i18n("search"), text: $searchText)
                 .padding(.horizontal, 8)
@@ -137,40 +136,40 @@ public struct SymbolPicker: View {
                 .disableAutocorrection(true)
             symbolGrid
         }
-
+        
         /// `searchable` is crashing on tvOS 16. What the hell aPPLE?
         ///
         /// symbolGrid
         ///     .searchable(text: $searchText, placement: .automatic)
-        #elseif os(macOS)
+#elseif os(macOS)
         VStack(spacing: 0) {
             HStack {
                 TextField(i18n("search"), text: $searchText)
                     .textFieldStyle(.plain)
-                    .font(.system(size: 18.0))
+                    .font(.system(size: 18))
                     .disableAutocorrection(true)
-
+                
                 Button {
                     presentationMode.wrappedValue.dismiss()
                 } label: {
                     Image(systemName: "xmark.circle.fill")
                         .resizable()
-                        .frame(width: 16.0, height: 16.0)
+                        .frame(width: 16, height: 16)
                 }
                 .buttonStyle(.borderless)
             }
             .padding()
-
+            
             Divider()
-
+            
             symbolGrid
         }
-        #else
+#else
         symbolGrid
             .searchable(text: $searchText, placement: .automatic)
-        #endif
+#endif
     }
-
+    
     private var symbolGrid: some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: Self.gridDimension, maximum: Self.gridDimension))]) {
@@ -182,11 +181,11 @@ public struct SymbolPicker: View {
                         if thisSymbol == symbol {
                             Image(systemName: thisSymbol)
                                 .font(.system(size: Self.symbolSize))
-                                #if os(tvOS)
+#if os(tvOS)
                                 .frame(minWidth: Self.gridDimension, minHeight: Self.gridDimension)
-                                #else
+#else
                                 .frame(maxWidth: .infinity, minHeight: Self.gridDimension)
-                                #endif
+#endif
                                 .background(Self.selectedItemBackgroundColor)
                                 .cornerRadius(Self.symbolCornerRadius)
                                 .foregroundColor(.white)
@@ -200,27 +199,27 @@ public struct SymbolPicker: View {
                         }
                     }
                     .buttonStyle(.plain)
-                    #if os(iOS)
+#if os(iOS)
                     .hoverEffect(.lift)
-                    #endif
+#endif
                 }
             }
         }
     }
-
+    
     public var body: some View {
-        #if !os(macOS)
+#if !os(macOS)
         NavigationView {
             ZStack {
-                #if os(iOS)
+#if os(iOS)
                 Self.backgroundColor.edgesIgnoringSafeArea(.all)
-                #endif
+#endif
                 searchableSymbolGrid
             }
-            #if os(iOS)
+#if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
-            #endif
-            #if !os(tvOS)
+#endif
+#if !os(tvOS)
             /// tvOS can use back button on remote
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -229,25 +228,17 @@ public struct SymbolPicker: View {
                     }
                 }
             }
-            #endif
+#endif
         }
         .navigationViewStyle(.stack)
-        #else
+#else
         searchableSymbolGrid
             .frame(width: 540, height: 320, alignment: .center)
-        #endif
+#endif
     }
-
+    
 }
 
-struct SymbolPicker_Previews: PreviewProvider {
-    @State static var symbol: String = "square.and.arrow.up"
-
-    static var previews: some View {
-        Group {
-            SymbolPicker(symbol: Self.$symbol)
-            SymbolPicker(symbol: Self.$symbol)
-                .preferredColorScheme(.dark)
-        }
-    }
+#Preview {
+    SymbolPicker(symbol: .constant("square.and.arrow.up"))
 }

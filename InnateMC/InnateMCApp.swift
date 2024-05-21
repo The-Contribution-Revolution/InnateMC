@@ -16,7 +16,6 @@
 //
 
 import SwiftUI
-import WebKit
 import os
 
 @main
@@ -34,6 +33,7 @@ struct InnateMCApp: App {
             SidebarCommands()
             DeveloperModeCommands()
         }
+        
         Settings {
             PreferencesView()
                 .environmentObject(launcherData)

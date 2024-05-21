@@ -15,9 +15,7 @@
 // along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
 //
 
-import Foundation
 import AppKit
-import Combine
 
 public class LauncherData: ObservableObject {
     private static var currentInstance: LauncherData? = nil

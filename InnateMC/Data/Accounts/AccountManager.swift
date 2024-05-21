@@ -17,7 +17,6 @@
 
 import Foundation
 import Swifter
-import CryptoKit
 
 class AccountManager: ObservableObject {
     public static let accountsPath: URL = try! FileHandler.getOrCreateFolder().appendingPathComponent("Accounts.plist")

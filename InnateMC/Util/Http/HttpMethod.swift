@@ -15,8 +15,6 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/
 //
 
-import Foundation
-
 enum InnateHttpMethod: String {
     case get = "GET"
     case post = "POST"

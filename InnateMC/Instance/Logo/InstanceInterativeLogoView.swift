@@ -24,7 +24,7 @@ struct InstanceInterativeLogoView: View {
     @Binding var logoHovered: Bool
     
     var body: some View {
-        let size = launcherData.globalPreferences.ui.compactInstanceLogo ? 64.0 : 128.0
+        let size = launcherData.globalPreferences.ui.compactInstanceLogo ? 64.0 : 128
         InstanceLogoView(instance: instance)
             .frame(width: size, height: size)
             .padding(.all, 20)

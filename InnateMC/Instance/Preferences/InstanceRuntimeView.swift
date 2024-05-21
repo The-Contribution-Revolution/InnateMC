@@ -15,7 +15,6 @@
 // along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
 //
 
-import Foundation
 import SwiftUI
 
 struct InstanceRuntimeView: View {
@@ -29,6 +28,7 @@ struct InstanceRuntimeView: View {
             Form {
                 Toggle(isOn: $instance.preferences.runtime.valid, label: { Text(i18n("Override default runtime settings")) })
                     .padding(.bottom, 5)
+                
                 Picker(i18n("java"), selection: $selectedJava) {
                     PickableJavaVersion(installation: SavedJavaInstallation.systemDefault)
                     ForEach(launcherData.javaInstallations) {
@@ -36,17 +36,21 @@ struct InstanceRuntimeView: View {
                     }
                 }
                 .disabled(!valid)
+                
                 TextField(i18n("default_min_mem"), value: $instance.preferences.runtime.minMemory, formatter: NumberFormatter())
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .textFieldStyle(.roundedBorder)
                     .disabled(!valid)
+                
                 TextField(i18n("default_max_mem"), value: $instance.preferences.runtime.maxMemory, formatter: NumberFormatter())
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .textFieldStyle(.roundedBorder)
                     .disabled(!valid)
+                
                 TextField(i18n("default_java_args"), text: $instance.preferences.runtime.javaArgs)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .textFieldStyle(.roundedBorder)
                     .disabled(!valid)
             }
-            .padding(.all, 16.0)
+            .padding(.all, 16)
+            
             Spacer()
         }
         .onAppear {

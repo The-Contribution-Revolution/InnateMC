@@ -16,7 +16,6 @@
 //
 
 import Foundation
-import Combine
 
 extension AccountManager {
     public func setupMicrosoftAccount(code: String) {

@@ -25,6 +25,7 @@ public class RuntimePreferences: Codable, ObservableObject {
     @Published public var valid: Bool = true
     
     public init() {
+        
     }
     
     public init(_ prefs: RuntimePreferences) {

@@ -24,12 +24,10 @@ struct MiscPreferencesView: View {
         Form {
             Toggle(i18n("developer_mode"), isOn: $developerMode)
         }
-        .padding(.all, 16.0)
+        .padding(.all, 16)
     }
 }
 
-struct MiscPreferencesView_Previews: PreviewProvider {
-    static var previews: some View {
-        MiscPreferencesView()
-    }
+#Preview {
+    MiscPreferencesView()
 }

@@ -15,7 +15,6 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/
 //
 
-import CoreFoundation
 import Foundation
 
 public struct MicrosoftAccessToken: Codable {

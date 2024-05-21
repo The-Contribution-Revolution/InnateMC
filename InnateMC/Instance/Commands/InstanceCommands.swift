@@ -15,9 +15,7 @@
 // along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
 //
 
-import Foundation
 import SwiftUI
-import Combine
 
 struct InstanceCommands: Commands {
     var body: some Commands {
@@ -30,6 +28,7 @@ struct InstanceCommands: Commands {
                 NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: FileHandler.instancesFolder.path)
             }
             .keyboardShortcut(KeyEquivalent.upArrow, modifiers: [.shift, .command])
+            
             Button(i18n("new_instance")) {
                 DispatchQueue.main.async {
                     LauncherData.instance.newInstanceRequested = true

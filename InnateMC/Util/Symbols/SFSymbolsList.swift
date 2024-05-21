@@ -15,13 +15,12 @@
 // along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
 //
 
-import Foundation
-
 public struct SFSymbolsList {
     public static func getAll() -> [String] {
         if #available(macOS 13, *) {
             return SFSymbols13List.getAll()
         }
+        
         return SFSymbols12List.getAll()
     }
 }

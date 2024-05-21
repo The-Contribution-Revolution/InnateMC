@@ -19,18 +19,17 @@ import SwiftUI
 
 struct UiPreferencesView: View {
     @EnvironmentObject var launcherData: LauncherData
-
+    
     var body: some View {
         Form {
             Toggle(i18n("compact_instance_list"), isOn: $launcherData.globalPreferences.ui.compactList)
+            
             Toggle(i18n("compact_instance_logo"), isOn: $launcherData.globalPreferences.ui.compactInstanceLogo)
         }
-        .padding(.all, 16.0)
+        .padding(.all, 16)
     }
 }
 
-struct UiPreferencesView_Previews: PreviewProvider {
-    static var previews: some View {
-        UiPreferencesView()
-    }
+#Preview {
+    UiPreferencesView()
 }

@@ -16,7 +16,6 @@
 //
 
 import Cocoa
-import Foundation
 import Zip
 
 class AppDelegate: NSObject, NSApplicationDelegate {
