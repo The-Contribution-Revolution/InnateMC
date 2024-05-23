@@ -8,18 +8,18 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import Foundation
 
 public enum ArgumentElement: Codable, Equatable {
-    case string(String)
-    case object(ConditionalArgument)
+    case string(String),
+         object(ConditionalArgument)
     
     public init(from decoder: Decoder) throws {
         if let str = try? decoder.singleValueContainer().decode(String.self) {
@@ -33,9 +33,10 @@ public enum ArgumentElement: Codable, Equatable {
     public var actualValue: [String] {
         switch self {
         case .string(let value):
-            return [value]
+            [value]
+            
         case .object(let obj):
-            return obj.value
+            obj.value
         }
     }
     
@@ -45,6 +46,7 @@ public enum ArgumentElement: Codable, Equatable {
         switch self {
         case .string(let value):
             try container.encode(value)
+            
         case .object(let value):
             try container.encode(value)
         }

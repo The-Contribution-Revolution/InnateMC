@@ -8,48 +8,52 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import SwiftUI
 
 open class TaskProgress: ObservableObject {
-    @Published public var current: Int = 0
-    @Published public var total: Int = 1
+    @Published public var current = 0
+    @Published public var total = 1
+    
     public var callback: (() -> Void)? = nil
     public var cancelled = false
     
     public init() {
+        
     }
     
     public func fraction() -> Double {
-        return Double(current) / Double(total)
+        Double(current) / Double(total)
     }
     
     public func percentString() -> String {
-        return String(format: "%.2f", fraction() * 100) + "%"
+        String(format: "%.2f", fraction() * 100) + "%"
     }
     
     @MainActor
     open func inc() {
-        self.current += 1
-        if (self.current == self.total) {
+        current += 1
+        
+        if current == total {
             logger.debug("Sending download progress callback")
             callback?()
         }
+        
         logger.trace("Incremented task progress to \(self.current)")
     }
     
     public func intPercent() -> Int {
-        return Int((fraction() * 100).rounded())
+        Int((fraction() * 100).rounded())
     }
     
     public func isDone() -> Bool {
-        return Int(current) >= Int(total)
+        Int(current) >= Int(total)
     }
     
     public init(current: Int, total: Int) {
@@ -58,11 +62,11 @@ open class TaskProgress: ObservableObject {
     }
     
     public static func completed() -> TaskProgress {
-        return TaskProgress(current: 1, total: 1)
+        TaskProgress(current: 1, total: 1)
     }
     
     public func setFrom(_ other: TaskProgress) {
-        self.current = other.current
-        self.total = other.total
+        current = other.current
+        total = other.total
     }
 }

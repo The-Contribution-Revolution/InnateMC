@@ -8,11 +8,11 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 @propertyWrapper
@@ -21,16 +21,16 @@ struct RunOnce {
     private let action: () -> Void
     
     init(wrappedValue: @escaping () -> Void) {
-        self.action = wrappedValue
+        action = wrappedValue
     }
     
     var wrappedValue: () -> Void {
         mutating get {
-            if !hasRun {
+            if hasRun {
+                return {}
+            } else {
                 hasRun = true
                 return action
-            } else {
-                return {}
             }
         }
     }

@@ -8,11 +8,11 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import Foundation
@@ -29,17 +29,26 @@ public struct PartialVersion: Codable, Hashable, Identifiable {
     public var complianceLevel: Int
     
     enum CodingKeys: String, CodingKey {
-        case version = "id"
-        case type
-        case url
-        case time
-        case releaseTime
-        case sha1
-        case complianceLevel
+        case version = "id",
+             type,
+             url,
+             time,
+             releaseTime,
+             sha1,
+             complianceLevel
     }
     
     public static func createBlank() -> PartialVersion {
-        return PartialVersion(id: "no", version: "no", type: "no", url: "no", time: "no", releaseTime: "no", sha1: "no", complianceLevel: 0)
+        PartialVersion(
+            id: "no", 
+            version: "no",
+            type: "no",
+            url: "no",
+            time: "no",
+            releaseTime: "no",
+            sha1: "no",
+            complianceLevel: 0
+        )
     }
     
     public init(id: String, version: String, type: String, url: String, time: String, releaseTime: String, sha1: String, complianceLevel: Int) {

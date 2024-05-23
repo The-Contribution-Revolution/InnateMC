@@ -8,31 +8,31 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 struct XstsAuth: Codable {
     let properties: Properties
     let relyingParty: String
     let tokenType: String
-
+    
     enum CodingKeys: String, CodingKey {
-        case properties = "Properties"
-        case relyingParty = "RelyingParty"
-        case tokenType = "TokenType"
+        case properties = "Properties",
+             relyingParty = "RelyingParty",
+             tokenType = "TokenType"
     }
     
     struct Properties: Codable {
         let sandboxId: String
         let userTokens: [String]
-
+        
         enum CodingKeys: String, CodingKey {
-            case sandboxId = "SandboxId"
-            case userTokens = "UserTokens"
+            case sandboxId = "SandboxId",
+                 userTokens = "UserTokens"
         }
     }
 }

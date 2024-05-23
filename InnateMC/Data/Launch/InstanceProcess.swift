@@ -8,17 +8,17 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import Foundation
 
 public class InstanceProcess: ObservableObject  {
-    @Published public var process: Process = Process()
+    @Published public var process = Process()
     @Published public var terminated = false
     @Published public var logMessages: [String] = []
     
@@ -26,19 +26,24 @@ public class InstanceProcess: ObservableObject  {
         var maxMemory = setting(\.runtime.maxMemory)
         var minMemory = setting(\.runtime.minMemory)
         var javaInstallation = setting(\.runtime.defaultJava)
+        
         if instance.preferences.runtime.valid {
             maxMemory = setting(\.runtime.maxMemory, for: instance)
             minMemory = setting(\.runtime.minMemory, for: instance)
             javaInstallation = setting(\.runtime.defaultJava, for: instance)
         }
+        
         let javaExec = URL(fileURLWithPath: javaInstallation.javaExecutable)
         process.executableURL = javaExec
+        
         var allArgs = [
             "-Xmx\(maxMemory)M",
             "-Xms\(minMemory)M",
             "-Djava.library.path=\(instance.getPath().appendingPathComponent("natives").path)"
         ]
+        
         allArgs.append(contentsOf: instance.processArgsByRules(\.jvm, features: [:])) // TODO: fix
+        
         let mcArgs = ArgumentProvider()
         mcArgs.clientId(LauncherData.instance.accountManager.clientId)
         mcArgs.xuid(account.xuid)
@@ -54,9 +59,11 @@ public class InstanceProcess: ObservableObject  {
         mcArgs.versionType("todo")
         mcArgs.width(720)
         mcArgs.height(450)
+        
         allArgs.append("-cp")
         instance.appendClasspath(args: &allArgs)
         allArgs.append(instance.mainClass)
+        
         let mcArgsProcessed = mcArgs.accept(instance.processArgsByRules(\.game, features: [:])); // TODO: fix
         allArgs.append(contentsOf: mcArgsProcessed)
         process.arguments = allArgs
@@ -65,13 +72,16 @@ public class InstanceProcess: ObservableObject  {
         process.standardOutput = outputPipe
         process.standardError = outputPipe
         let outputHandler = outputPipe.fileHandleForReading
+        
         outputHandler.readabilityHandler = { [weak self] pipe in
             guard let line = String(data: pipe.availableData, encoding: .utf8)?.trimmingCharacters(in: .newlines) else {
                 return
             }
+            
             if line.trimmingCharacters(in: .whitespaces).isEmpty {
                 return
             }
+            
             DispatchQueue.main.async {
                 self?.logMessages.append(line)
             }
@@ -80,6 +90,7 @@ public class InstanceProcess: ObservableObject  {
         DispatchQueue.global(qos: .utility).async {
             self.process.launch()
             self.process.waitUntilExit()
+            
             DispatchQueue.main.async {
                 logger.debug("Instance \(instance.name) terminated")
                 LauncherData.instance.launchedInstances.removeValue(forKey: instance)
@@ -93,9 +104,9 @@ public class InstanceProcess: ObservableObject  {
 
 fileprivate extension Process {
     func getRunCommand() -> String {
-        var command = self.launchPath ?? ""
+        var command = launchPath ?? ""
         
-        if let arguments = self.arguments {
+        if let arguments {
             for arg in arguments {
                 command += " \(arg)"
             }

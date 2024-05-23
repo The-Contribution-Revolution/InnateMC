@@ -8,25 +8,22 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import SwiftUI
 
 protocol MinecraftAccount: Codable, Hashable {
     var id: UUID { get }
-    
     var type: MinecraftAccountType { get }
-    
     var username: String { get }
-    
     var xuid: String { get }
     
-    static func createFromDict(_ dict: [String:Any]) -> Self
+    static func createFromDict(_ dict: [String: Any]) -> Self
     
     func createAccessToken() async throws -> String
 }
@@ -35,17 +32,18 @@ fileprivate let minecraftAccountDecoder = PropertyListDecoder()
 
 extension MinecraftAccount {
     public static func == (lhs: Self, rhs: Self) -> Bool {
-        return lhs.id == rhs.id && lhs.username == rhs.username
+        lhs.id == rhs.id && lhs.username == rhs.username
     }
     
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.id)
-        hasher.combine(self.username)
+        hasher.combine(id)
+        hasher.combine(username)
     }
-
-    static func createFromDict(_ dict: [String:Any]) -> Self {
+    
+    static func createFromDict(_ dict: [String: Any]) -> Self {
         let data = try! PropertyListSerialization.data(fromPropertyList: dict, format: .binary, options: 0)
-        let decoded = try! minecraftAccountDecoder.decode(Self.self, from: data)
+        let decoded = try! minecraftAccountDecoder.decode(self, from: data)
+        
         return decoded
     }
 }

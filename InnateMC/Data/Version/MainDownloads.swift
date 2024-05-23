@@ -8,17 +8,18 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import Foundation
 
 public struct MainDownloads: Codable, Equatable {
-    public static let none: MainDownloads = .init(client: .none, clientMappings: nil, server: nil, serverMappings: nil, windowsServer: nil)
+    public static let none = MainDownloads(client: .none, clientMappings: nil, server: nil, serverMappings: nil, windowsServer: nil)
+    
     let client: Artifact
     let clientMappings: Artifact?
     let server: Artifact?
@@ -26,11 +27,11 @@ public struct MainDownloads: Codable, Equatable {
     let windowsServer: Artifact?
     
     enum CodingKeys: String, CodingKey {
-        case client
-        case clientMappings = "client_mappings"
-        case server
-        case serverMappings = "server_mappings"
-        case windowsServer = "windows_server"
+        case client,
+             clientMappings = "client_mappings",
+             server,
+             serverMappings = "server_mappings",
+             windowsServer = "windows_server"
     }
     
     public static func |(lhs: MainDownloads, rhs: MainDownloads) -> MainDownloads {

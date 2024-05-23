@@ -8,19 +8,20 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import SwiftUI
 
 struct RuntimePreferencesView: View {
-    @EnvironmentObject var launcherData: LauncherData
-    @State var cachedDefaultJava: SavedJavaInstallation = SavedJavaInstallation.systemDefault
-    @State var showFileImporter: Bool = false
+    @EnvironmentObject private var launcherData: LauncherData
+    
+    @State private var cachedDefaultJava = SavedJavaInstallation.systemDefault
+    @State private var showFileImporter = false
     
     var body: some View {
         VStack {
@@ -28,37 +29,41 @@ struct RuntimePreferencesView: View {
                 Text(cachedDefaultJava.javaExecutable)
                     .frame(alignment: .center)
                     .foregroundColor(.secondary)
-                TextField(i18n("default_min_mem"), value: $launcherData.globalPreferences.runtime.minMemory, formatter: NumberFormatter())
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                TextField(i18n("default_max_mem"), value: $launcherData.globalPreferences.runtime.maxMemory, formatter: NumberFormatter())
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                TextField(i18n("default_java_args"), text: $launcherData.globalPreferences.runtime.javaArgs)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                
+                Group {
+                    TextField(i18n("default_min_mem"), value: $launcherData.globalPreferences.runtime.minMemory, formatter: NumberFormatter())
+                    
+                    TextField(i18n("default_max_mem"), value: $launcherData.globalPreferences.runtime.maxMemory, formatter: NumberFormatter())
+                    
+                    TextField(i18n("default_java_args"), text: $launcherData.globalPreferences.runtime.javaArgs)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .textFieldStyle(.roundedBorder)
             }
             .onAppear {
-                self.cachedDefaultJava = launcherData.globalPreferences.runtime.defaultJava
+                cachedDefaultJava = launcherData.globalPreferences.runtime.defaultJava
             }
-            .onReceive(launcherData.globalPreferences.runtime.$defaultJava, perform: {
-                self.cachedDefaultJava = $0
+            .onReceive(launcherData.globalPreferences.runtime.$defaultJava) {
+                cachedDefaultJava = $0
                 logger.debug("Default java runtime changed to \($0.javaExecutable)")
-            })
+            }
             .padding([.leading, .trailing, .top], 16)
             .padding(.bottom, 5)
-            Table(of: SavedJavaInstallation.self, selection: Binding(get: {
+            
+            Table(of: SavedJavaInstallation.self, selection: Binding {
                 return launcherData.globalPreferences.runtime.defaultJava
-            }, set: {
-                launcherData.globalPreferences.runtime.defaultJava = $0 ?? SavedJavaInstallation.systemDefault
-            })) {
+            } set: {
+                launcherData.globalPreferences.runtime.defaultJava = $0 ?? .systemDefault
+            }) {
                 TableColumn("Version") {
                     Text($0.getDebugString())
                 }
                 .width(max: 200)
+                
                 TableColumn("Path", value: \.javaExecutable)
             } rows: {
-                TableRow(SavedJavaInstallation.systemDefault)
+                TableRow(.systemDefault)
+                
                 ForEach(launcherData.javaInstallations) {
                     TableRow($0)
                 }
@@ -77,7 +82,7 @@ struct RuntimePreferencesView: View {
                     return
                 }
                 
-                let install: SavedJavaInstallation = .init(javaExecutable: url.path)
+                let install = SavedJavaInstallation(javaExecutable: url.path)
                 install.setupAsNewVersion(launcherData: launcherData)
                 logger.info("Set up java runtime from \(install.javaExecutable)")
             }

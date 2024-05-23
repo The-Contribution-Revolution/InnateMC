@@ -8,11 +8,11 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 struct MinecraftAuthResponse: Codable {
@@ -20,11 +20,11 @@ struct MinecraftAuthResponse: Codable {
     let accessToken: String
     let tokenType: String
     let expiresIn: Int
-
+    
     enum CodingKeys: String, CodingKey {
-        case username
-        case accessToken = "access_token"
-        case tokenType = "token_type"
-        case expiresIn = "expires_in"
+        case username,
+             accessToken = "access_token",
+             tokenType = "token_type",
+             expiresIn = "expires_in"
     }
 }

@@ -8,18 +8,19 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import SwiftUI
 
 struct ErrorTrackerView: View {
     @StateObject var errorTracker: ErrorTracker
-    @State var selection: ErrorTrackerEntry? = nil
+    
+    @State private var selection: ErrorTrackerEntry? = nil
     
     var body: some View {
         List(selection: $selection) {
@@ -31,11 +32,14 @@ struct ErrorTrackerView: View {
                         HStack {
                             Text(entry.description)
                                 .padding(.bottom, 2)
+                            
                             Spacer()
                         }
+                        
                         if let error = entry.error {
                             HStack {
                                 Text(error.localizedDescription)
+                                
                                 Spacer()
                             }
                         }

@@ -8,44 +8,48 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import Foundation
 
 public final class JreDownloader {
     public static func download(version: Int) throws {
-//        let url = URL(string: getUrl(version: version))!
-//        let data = try Data(contentsOf: url)
+        //        let url = URL(string: getUrl(version: version))!
+        //        let data = try Data(contentsOf: url)
     }
     
     private static func getUrl(version: Int) -> String {
-        return "https://api.adoptium.net/v3/binary/latest/\(version)/ga/mac/\(formattedArchitecture)/jre/hotspot/normal/eclipse"
+        "https://api.adoptium.net/v3/binary/latest/\(version)/ga/mac/\(formattedArchitecture)/jre/hotspot/normal/eclipse"
     }
     
     private static var architecture: String {
         var sysinfo = utsname()
         let result = uname(&sysinfo)
+        
         guard result == EXIT_SUCCESS else {
             fatalError()
         }
+        
         let data = Data(bytes: &sysinfo.machine, count: Int(_SYS_NAMELEN))
+        
         guard let identifier = String(bytes: data, encoding: .ascii) else {
             fatalError()
         }
+        
         return identifier.trimmingCharacters(in: .controlCharacters)
     }
     
     private static var formattedArchitecture: String {
-        let arch = architecture.lowercased()
-        if (arch.contains("arm")) {
-            return "aarch64"
+        if architecture.lowercased().contains("arm") {
+            "aarch64"
+        } else {
+            "x86_64"
         }
-        return "x86_64"
     }
 }
 

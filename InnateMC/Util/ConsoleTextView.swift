@@ -8,11 +8,11 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import SwiftUI
@@ -23,7 +23,7 @@ struct ConsoleTextView: NSViewRepresentable {
     var text: String
     var layoutManager: NSLayoutManager
     var textContainer: NSTextContainer
-    var font: NSFont = NSFont.monospacedSystemFont(ofSize: NSFont.systemFontSize, weight: .regular)
+    var font = NSFont.monospacedSystemFont(ofSize: NSFont.systemFontSize, weight: .regular)
     
     func makeNSView(context: Context) -> NSTextView {
         let textView = NSTextView()
@@ -32,18 +32,18 @@ struct ConsoleTextView: NSViewRepresentable {
         textView.isSelectable = true
         textView.drawsBackground = false
         textView.font = font
-        textView.alignment = NSTextAlignment.natural
+        textView.alignment = .natural
         textView.string = text
         textView.allowsUndo = false
-        textView.textContainer = self.textContainer
+        textView.textContainer = textContainer
         return textView
     }
     
     func updateNSView(_ nsView: NSTextView, context: Context) {
-        self.textContainer.layoutManager = self.layoutManager
+        textContainer.layoutManager = layoutManager
         nsView.string = text
         nsView.font = font
-        nsView.textContainer = self.textContainer
+        nsView.textContainer = textContainer
     }
 }
 

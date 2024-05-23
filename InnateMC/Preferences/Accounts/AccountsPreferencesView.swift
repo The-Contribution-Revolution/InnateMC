@@ -8,22 +8,23 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import SwiftUI
 
 struct AccountsPreferencesView: View {
-    @EnvironmentObject var launcherData: LauncherData
-    @State var showAddOfflineSheet: Bool = false
-    @StateObject var msAccountViewModel: MicrosoftAccountViewModel = .init()
-    @State var cachedAccounts: [UUID:any MinecraftAccount] = [:]
-    @State var cachedAccountsOnly: [AdaptedAccount] = []
-    @State var selectedAccountIds: Set<UUID> = []
+    @StateObject private var msAccountViewModel = MicrosoftAccountViewModel()
+    @EnvironmentObject private var launcherData: LauncherData
+    
+    @State private var showAddOfflineSheet = false
+    @State private var cachedAccounts: [UUID: any MinecraftAccount] = [:]
+    @State private var cachedAccountsOnly: [AdaptedAccount] = []
+    @State private var selectedAccountIds: Set<UUID> = []
     
     var body: some View {
         VStack {
@@ -35,47 +36,54 @@ struct AccountsPreferencesView: View {
             
             HStack {
                 Spacer()
+                
                 Button(i18n("add_offline")) {
-                    self.showAddOfflineSheet = true
+                    showAddOfflineSheet = true
                 }
                 .padding()
+                
                 Button(i18n("add_microsoft")) {
-                    self.msAccountViewModel.prepareAndOpenSheet(launcherData: self.launcherData)
+                    msAccountViewModel.prepareAndOpenSheet(launcherData: launcherData)
                 }
                 .padding()
+                
                 Button(i18n("delete_selected")) {
                     for id in selectedAccountIds {
-                        self.launcherData.accountManager.accounts.removeValue(forKey: id)
+                        launcherData.accountManager.accounts.removeValue(forKey: id)
                     }
-                    self.selectedAccountIds = []
+                    
+                    selectedAccountIds = []
+                    
                     DispatchQueue.global(qos: .utility).async {
                         self.launcherData.accountManager.saveThrow() // TODO: handle error
                     }
                 }
-                .disabled(self.selectedAccountIds.isEmpty)
+                .disabled(selectedAccountIds.isEmpty)
                 .padding()
+                
                 Spacer()
             }
         }
         .onAppear {
-            self.cachedAccounts = launcherData.accountManager.accounts
-            self.cachedAccountsOnly = Array(self.cachedAccounts.values).map({ AdaptedAccount(from: $0)})
+            cachedAccounts = launcherData.accountManager.accounts
+            cachedAccountsOnly = Array(cachedAccounts.values).map({ AdaptedAccount(from: $0)})
         }
         .onReceive(launcherData.accountManager.$accounts) {
-            self.cachedAccounts = $0
-            self.cachedAccountsOnly = Array($0.values).map({ AdaptedAccount(from: $0)})
+            cachedAccounts = $0
+            cachedAccountsOnly = Array($0.values).map({ AdaptedAccount(from: $0)})
         }
-        .onReceive(msAccountViewModel.$showMicrosoftAccountSheet, perform: {
+        .onReceive(msAccountViewModel.$showMicrosoftAccountSheet) {
             if !$0 {
                 launcherData.accountManager.msAccountViewModel = nil
             }
-        })
+        }
         .sheet(isPresented: $showAddOfflineSheet) {
             AddOfflineAccountView(showSheet: $showAddOfflineSheet) {
                 let acc = OfflineAccount.createFromUsername($0)
-                self.launcherData.accountManager.accounts[acc.id] = acc
+                launcherData.accountManager.accounts[acc.id] = acc
+                
                 DispatchQueue.global(qos: .utility).async {
-                    self.launcherData.accountManager.saveThrow() // TODO: handle error
+                    launcherData.accountManager.saveThrow() // TODO: handle error
                 }
             }
         }
@@ -112,8 +120,8 @@ class AdaptedAccount: Identifiable {
     var type: MinecraftAccountType
     
     init(from acc: any MinecraftAccount) {
-        self.id = acc.id
-        self.username = acc.username
-        self.type = acc.type
+        id = acc.id
+        username = acc.username
+        type = acc.type
     }
 }

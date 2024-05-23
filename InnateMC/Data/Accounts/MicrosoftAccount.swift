@@ -8,11 +8,11 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import Foundation
@@ -22,12 +22,15 @@ struct MicrosoftAccount: MinecraftAccount {
     var type: MinecraftAccountType = .microsoft
     var profile: MinecraftProfile
     var token: MicrosoftAccessToken
+    
     var username: String {
         profile.name
     }
+    
     var id: UUID {
         UUID(uuidString: hyphenateUuid(profile.id))!
     }
+    
     var xuid: String {
         username // TODO: decode JWT?
     }
@@ -45,9 +48,10 @@ struct MicrosoftAccount: MinecraftAccount {
             let newAccount: MicrosoftAccount
             
             do {
-                let newToken = try await manager.refreshMicrosoftToken(self.token)
-                newAccount = MicrosoftAccount(profile: self.profile, token: newToken)
+                let newToken = try await manager.refreshMicrosoftToken(token)
+                newAccount = MicrosoftAccount(profile: profile, token: newToken)
                 manager.accounts[self.id] = newAccount
+                
                 DispatchQueue.global(qos: .utility).async {
                     manager.saveThrow()
                 }
@@ -60,21 +64,26 @@ struct MicrosoftAccount: MinecraftAccount {
             return try await newAccount.createAccessToken()
         }
         
-        let xblResponse = try await manager.authenticateWithXBL(msAccessToken: self.token.token)
+        let xblResponse = try await manager.authenticateWithXBL(msAccessToken: token.token)
         logger.debug("Authenticated with xbox live")
+        
         let xstsResponse: XboxAuthResponse = try await manager.authenticateWithXSTS(xblToken: xblResponse.token)
         logger.debug("Authenticated with xbox xsts")
+        
         let mcResponse: MinecraftAuthResponse = try await manager.authenticateWithMinecraft(using: .init(xsts: xstsResponse))
         logger.debug("Authenticated with minecraft")
+        
         return mcResponse.accessToken
     }
 }
 
 private func hyphenateUuid(_ thing: String) -> String {
     var uuid = thing
+    
     uuid.insert("-", at: uuid.index(uuid.startIndex, offsetBy: 8))
     uuid.insert("-", at: uuid.index(uuid.startIndex, offsetBy: 13))
     uuid.insert("-", at: uuid.index(uuid.startIndex, offsetBy: 18))
     uuid.insert("-", at: uuid.index(uuid.startIndex, offsetBy: 23))
+    
     return uuid
 }

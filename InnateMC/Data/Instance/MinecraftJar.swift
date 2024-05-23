@@ -8,11 +8,11 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import Foundation
@@ -23,9 +23,9 @@ public struct MinecraftJar: Codable {
     public var sha1: String?
     
     private enum CodingKeys: String, CodingKey {
-        case type
-        case url
-        case sha1
+        case type,
+             url,
+             sha1
     }
     
     public init(type: FileType, url: URL?, sha1: String?) {
@@ -51,7 +51,7 @@ public struct MinecraftJar: Codable {
         try container.encode(type, forKey: .type)
         try container.encode(sha1, forKey: .sha1)
         
-        if let url = url {
+        if let url {
             try container.encode(url.absoluteString, forKey: .url)
         }
     }

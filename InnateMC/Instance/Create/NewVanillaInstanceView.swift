@@ -8,35 +8,37 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import SwiftUI
 
 struct NewVanillaInstanceView: View {
-    @EnvironmentObject var launcherData: LauncherData
-    @State var versionManifest: [PartialVersion] = []
-    @State var showSnapshots = false
-    @State var showBeta = false
-    @State var showAlpha = false
-    @State var selectedVersion: PartialVersion = PartialVersion.createBlank()
+    @EnvironmentObject private var launcherData: LauncherData
     @AppStorage("newVanillaInstance.cachedName") var name = NSLocalizedString("new_instance_default", comment: "New Instance")
-    @AppStorage("newVanillaInstance.cachedVersion") var cachedVersionId: String = ""
-    @State var versions: [PartialVersion] = []
+    @AppStorage("newVanillaInstance.cachedVersion") var cachedVersionId = ""
+    
     @Binding var showNewInstanceSheet: Bool
-    @State var showNoNamePopover = false
-    @State var showDuplicateNamePopover = false
-    @State var showInvalidVersionPopover = false
+    
+    @State private var versionManifest: [PartialVersion] = []
+    @State private var showSnapshots = false
+    @State private var showBeta = false
+    @State private var showAlpha = false
+    @State private var selectedVersion: PartialVersion = .createBlank()
+    @State private var versions: [PartialVersion] = []
+    @State private var showNoNamePopover = false
+    @State private var showDuplicateNamePopover = false
+    @State private var showInvalidVersionPopover = false
     
     var body: some View {
         VStack {
             Spacer()
             Form {
-                TextField(i18n("name"), text: $name).frame(width: 400, height: nil, alignment: .leading).textFieldStyle(RoundedBorderTextFieldStyle())
+                TextField(i18n("name"), text: $name).frame(width: 400, height: nil, alignment: .leading).textFieldStyle(.roundedBorder)
                     .popover(isPresented: $showNoNamePopover, arrowEdge: .bottom) {
                         Text(i18n("enter_a_name"))
                             .padding()
@@ -47,7 +49,7 @@ struct NewVanillaInstanceView: View {
                             .padding()
                     }
                 Picker(i18n("version"), selection: $selectedVersion) {
-                    ForEach(self.versions) { ver in
+                    ForEach(versions) { ver in
                         Text(ver.version)
                             .tag(ver)
                     }
@@ -56,55 +58,65 @@ struct NewVanillaInstanceView: View {
                     Text(i18n("choose_valid_version"))
                         .padding()
                 }
+                
                 Toggle(i18n("show_snapshots"), isOn: $showSnapshots)
                 Toggle(i18n("show_old_beta"), isOn: $showBeta)
                 Toggle(i18n("show_old_alpha"), isOn: $showAlpha)
             }.padding()
-            HStack{
+            
+            HStack {
                 Spacer()
+                
                 HStack{
                     Button(i18n("cancel")) {
                         showNewInstanceSheet = false
                     }.keyboardShortcut(.cancelAction)
                     Button(i18n("done")) {
-                        let trimmedName = self.name.trimmingCharacters(in: .whitespacesAndNewlines)
+                        let trimmedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
+                        
                         if trimmedName.isEmpty { // TODO: also check for spaces
-                            self.showNoNamePopover = true
+                            showNoNamePopover = true
                             return
                         }
+                        
                         if launcherData.instances.map({ $0.name }).contains(where: { $0.lowercased() == trimmedName.lowercased()}) {
-                            self.showDuplicateNamePopover = true
+                            showDuplicateNamePopover = true
                             return
                         }
-                        if !self.versionManifest.contains(where: { $0 == self.selectedVersion }) {
-                            self.showInvalidVersionPopover = true
+                        
+                        if !versionManifest.contains(where: { $0 == selectedVersion }) {
+                            showInvalidVersionPopover = true
                             return
                         }
-                        self.showNoNamePopover = false
-                        self.showDuplicateNamePopover = false
-                        self.showInvalidVersionPopover = false
-                        let instance = VanillaInstanceCreator(name: trimmedName, versionUrl: URL(string: self.selectedVersion.url)!, sha1: self.selectedVersion.sha1, notes: nil, data: self.launcherData)
+                        
+                        showNoNamePopover = false
+                        showDuplicateNamePopover = false
+                        showInvalidVersionPopover = false
+                        let instance = VanillaInstanceCreator(name: trimmedName, versionUrl: URL(string: selectedVersion.url)!, sha1: selectedVersion.sha1, notes: nil, data: launcherData)
                         do {
-                            self.launcherData.instances.append(try instance.install())
-                            self.name = NSLocalizedString("new_instance_default", comment: "New Instance")
-                            self.cachedVersionId = ""
-                            self.showNewInstanceSheet = false
+                            launcherData.instances.append(try instance.install())
+                            name = NSLocalizedString("new_instance_default", comment: "New Instance")
+                            cachedVersionId = ""
+                            showNewInstanceSheet = false
                         } catch {
                             ErrorTracker.instance.error(error: error, description: "Error creating instance")
                         }
-                    }.keyboardShortcut(.defaultAction)
-                }.padding(.trailing).padding(.bottom)
+                    }
+                    .keyboardShortcut(.defaultAction)
+                }
+                .padding(.trailing)
+                .padding(.bottom)
                 
             }
         }
         .onAppear {
-            self.versionManifest = self.launcherData.versionManifest
+            versionManifest = launcherData.versionManifest
             recomputeVersions()
         }
-        .onReceive(self.launcherData.$versionManifest, perform: {
-            self.versionManifest = $0
+        .onReceive(launcherData.$versionManifest) {
+            versionManifest = $0
             recomputeVersions()
-        })
+        }
         .onChange(of: showAlpha) { _ in
             recomputeVersions()
         }
@@ -115,7 +127,7 @@ struct NewVanillaInstanceView: View {
             recomputeVersions()
         }
         .onChange(of: selectedVersion) { _ in
-            self.cachedVersionId = self.selectedVersion.version
+            cachedVersionId = selectedVersion.version
         }
     }
     
@@ -123,20 +135,24 @@ struct NewVanillaInstanceView: View {
         if versionManifest.isEmpty {
             return
         }
+        
         DispatchQueue.global(qos: .userInteractive).async {
-            let newVersions = self.versionManifest.filter { version in
+            let newVersions = versionManifest.filter { version in
                 return version.type == "old_alpha" && showAlpha ||
                 version.type == "old_beta" && showBeta ||
                 version.type == "snapshot" && showSnapshots ||
                 version.type == "release"
             }
-            let notContained = !newVersions.contains(self.selectedVersion)
+            
+            let notContained = !newVersions.contains(selectedVersion)
+            
             DispatchQueue.main.async {
-                self.versions = newVersions
-                if let cached = self.versions.filter({ $0.version == self.cachedVersionId}).first {
-                    self.selectedVersion = cached
+                versions = newVersions
+                
+                if let cached = versions.filter({ $0.version == cachedVersionId}).first {
+                    selectedVersion = cached
                 } else if notContained {
-                    self.selectedVersion = newVersions.first!
+                    selectedVersion = newVersions.first!
                 }
             }
         }
@@ -144,5 +160,5 @@ struct NewVanillaInstanceView: View {
 }
 
 #Preview {
-    NewVanillaInstanceView(showNewInstanceSheet: Binding.constant(true))
+    NewVanillaInstanceView(showNewInstanceSheet: .constant(true))
 }

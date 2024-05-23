@@ -8,28 +8,30 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import Foundation
 
 extension Instance {
     public func save() throws {
-        try FileHandler.saveData(self.getPath().appendingPathComponent("Instance.plist"), serialize())
+        try FileHandler.saveData(getPath().appendingPathComponent("Instance.plist"), serialize())
     }
     
     public func serialize() throws -> Data {
         let encoder = PropertyListEncoder()
         encoder.outputFormat = .xml
+        
         return try encoder.encode(self)
     }
     
     internal static func deserialize(_ data: Data, path: URL) throws -> Instance {
         let decoder = PropertyListDecoder()
+        
         return try decoder.decode(Instance.self, from: data)
     }
     
@@ -73,23 +75,27 @@ extension Instance {
                 try FileManager.default.moveItem(at: url, to: url.appendingPathExtension("_old"))
                 continue
             }
+            
             instances.append(instance)
             logger.info("Loaded instance \(instance.name)")
         }
+        
         return instances
     }
     
     public static func loadInstancesThrow() -> [Instance] {
-        return try! loadInstances()
+        try! loadInstances()
     }
     
     func createAsNewInstance() throws {
         let instancePath = getPath()
         let fm = FileManager.default
+        
         if fm.fileExists(atPath: instancePath.path) {
             logger.notice("Instance already exists at path, overwriting")
             try fm.removeItem(at: instancePath)
         }
+        
         try fm.createDirectory(at: instancePath, withIntermediateDirectories: true)
         try FileHandler.saveData(instancePath.appendingPathComponent("Instance.plist"), serialize())
         logger.info("Successfully created new instance \(self.name)")
@@ -100,14 +106,14 @@ extension Instance {
             try FileManager.default.removeItem(at: getPath())
             logger.info("Successfully deleted instance \(self.name)")
         } catch {
-            logger.error("Error deleting instance \(self.name)", error: error)
-            ErrorTracker.instance.error(error: error, description: "Error deleting instance \(self.name)")
+            logger.error("Error deleting instance \(name)", error: error)
+            ErrorTracker.instance.error(error: error, description: "Error deleting instance \(name)")
         }
     }
     
     public func renameAsync(to newName: String) {
         let oldName = name
-        let original = self.getPath()
+        let original = getPath()
         
         DispatchQueue.global(qos: .userInteractive).async {
             // TODO: handle the errors

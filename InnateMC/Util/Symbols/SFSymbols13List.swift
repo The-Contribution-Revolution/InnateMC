@@ -8,16 +8,16 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 public struct SFSymbols13List {
-    public static func getAll() -> [String] {
-        return [
+    static func getAll() -> [String] {
+        [
             "square.and.arrow.up",
             "square.and.arrow.up.fill",
             "square.and.arrow.down",

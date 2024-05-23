@@ -8,11 +8,11 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import SwiftUI
@@ -29,10 +29,15 @@ public class Instance: Identifiable, Hashable, InstanceData, ObservableObject {
     @Published public var notes: String?
     @Published public var synopsis: String?
     public var debugString: String
+    
     public var synopsisOrVersion: String {
-        get { return synopsis ?? debugString }
-        set(newValue) { self.synopsis = newValue }
+        get {
+            synopsis ?? debugString
+        } set(newValue) {
+            synopsis = newValue
+        }
     }
+    
     public var lastPlayed: Date?
     public var preferences: InstancePreferences = .init()
     public var arguments: Arguments
@@ -45,16 +50,17 @@ public class Instance: Identifiable, Hashable, InstanceData, ObservableObject {
     public var modsWatcher: FileWatcher? = nil
     public var worldsWatcher: FileWatcher? = nil
     
-    public init(name: String,
-                assetIndex: PartialAssetIndex,
-                libraries: [LibraryArtifact],
-                mainClass: String,
-                minecraftJar: MinecraftJar,
-                isStarred: Bool,
-                logo: InstanceLogo,
-                description: String?,
-                debugString: String,
-                arguments: Arguments
+    public init(
+        name: String,
+        assetIndex: PartialAssetIndex,
+        libraries: [LibraryArtifact],
+        mainClass: String,
+        minecraftJar: MinecraftJar,
+        isStarred: Bool,
+        logo: InstanceLogo,
+        description: String?,
+        debugString: String,
+        arguments: Arguments
     ) {
         self.name = name
         self.assetIndex = assetIndex
@@ -87,137 +93,141 @@ public class Instance: Identifiable, Hashable, InstanceData, ObservableObject {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         name = ""
-        assetIndex = try container.decode(PartialAssetIndex.self, forKey: .assetIndex)
-        libraries = try container.decode([LibraryArtifact].self, forKey: .libraries)
-        mainClass = try container.decode(String.self, forKey: .mainClass)
+        assetIndex =   try container.decode(PartialAssetIndex.self, forKey: .assetIndex)
+        libraries =    try container.decode([LibraryArtifact].self, forKey: .libraries)
+        mainClass =    try container.decode(String.self, forKey: .mainClass)
         minecraftJar = try container.decode(MinecraftJar.self, forKey: .minecraftJar)
-        isStarred = try container.decode(Bool.self, forKey: .isStarred)
-        logo = try container.decode(InstanceLogo.self, forKey: .logo)
-        notes = try container.decode(String?.self, forKey: .notes)
-        synopsis = try container.decode(String?.self, forKey: .synopsis)
-        debugString = try container.decode(String.self, forKey: .debugString)
-        lastPlayed = try container.decodeIfPresent(Date.self, forKey: .lastPlayed)
-        preferences = try container.decode(InstancePreferences.self, forKey: .preferences)
-        arguments = try container.decode(Arguments.self, forKey: .arguments)
+        isStarred =    try container.decode(Bool.self, forKey: .isStarred)
+        logo =         try container.decode(InstanceLogo.self, forKey: .logo)
+        notes =        try container.decode(String?.self, forKey: .notes)
+        synopsis =     try container.decode(String?.self, forKey: .synopsis)
+        debugString =  try container.decode(String.self, forKey: .debugString)
+        lastPlayed =   try container.decodeIfPresent(Date.self, forKey: .lastPlayed)
+        preferences =  try container.decode(InstancePreferences.self, forKey: .preferences)
+        arguments =    try container.decode(Arguments.self, forKey: .arguments)
     }
     
     private enum CodingKeys: String, CodingKey {
-        case assetIndex
-        case libraries
-        case mainClass
-        case minecraftJar
-        case isStarred
-        case logo
-        case notes
-        case synopsis
-        case debugString
-        case synopsisOrVersion
-        case lastPlayed
-        case preferences
-        case arguments
-        
-        // Legacy
-        case startOnFirstThread
-        case gameArguments
+        case assetIndex,
+             libraries,
+             mainClass,
+             minecraftJar,
+             isStarred,
+             logo,
+             notes,
+             synopsis,
+             debugString,
+             synopsisOrVersion,
+             lastPlayed,
+             preferences,
+             arguments,
+             
+             // Legacy
+             startOnFirstThread,
+             gameArguments
     }
     
     public static func getInstancePath(for name: String) -> URL {
-        return FileHandler.instancesFolder.appendingPathComponent(name + ".innate", isDirectory: true)
+        FileHandler.instancesFolder.appendingPathComponent(name + ".innate", isDirectory: true)
     }
     
     public func setPreferences(_ prefs: InstancePreferences) {
-        self.preferences = prefs
+        preferences = prefs
     }
     
     public func getPath() -> URL {
-        return Instance.getInstancePath(for: self.name)
+        Instance.getInstancePath(for: name)
     }
     
     public func getGamePath() -> URL {
-        return getPath().appendingPathComponent("minecraft", isDirectory: true)
+        getPath().appendingPathComponent("minecraft", isDirectory: true)
     }
     
     public func getNativesFolder() -> URL {
-        return getPath().appendingPathComponent("natives", isDirectory: true)
+        getPath().appendingPathComponent("natives", isDirectory: true)
     }
     
     public func getMcJarPath() -> URL {
-        return getPath().appendingPathComponent("minecraft.jar")
+        getPath().appendingPathComponent("minecraft.jar")
     }
     
     public func getLogoPath() -> URL {
-        return getPath().appendingPathComponent("logo.png")
+        getPath().appendingPathComponent("logo.png")
     }
     
     public func getModsFolder() -> URL {
-        return getGamePath().appendingPathComponent("mods")
+        getGamePath().appendingPathComponent("mods")
     }
     
     public func getScreenshotsFolder() -> URL {
-        return getGamePath().appendingPathComponent("screenshots")
+        getGamePath().appendingPathComponent("screenshots")
     }
     
     public func getLogsFolder() -> URL {
-        return getGamePath().appendingPathComponent("logs")
+        getGamePath().appendingPathComponent("logs")
     }
     
     public func getSavesFolder() -> URL {
-        return getGamePath().appendingPathComponent("saves")
+        getGamePath().appendingPathComponent("saves")
     }
     
     public func matchesSearchTerm(_ term: String) -> Bool {
         if term.isEmpty {
-            return true
+            true
+        } else {
+            name.localizedCaseInsensitiveContains(term) || synopsisOrVersion.localizedCaseInsensitiveContains(term)
         }
-        return self.name.localizedCaseInsensitiveContains(term) || self.synopsisOrVersion.localizedCaseInsensitiveContains(term)
     }
     
     public func processArgsByRules(_ thing: KeyPath<Arguments, [ArgumentElement]>, features: [String:Bool]) -> [String] {
-        self.arguments[keyPath: thing].filter { element in
+        arguments[keyPath: thing].filter { element in
             switch(element) {
             case .string:
-                return true
+                true
             case .object(let obj):
-                return obj.rules.allMatchRules(givenFeatures: features)
+                obj.rules.allMatchRules(givenFeatures: features)
             }
         }
-        .flatMap({ $0.actualValue })
+        .flatMap { $0.actualValue }
     }
     
     public static func == (lhs: Instance, rhs: Instance) -> Bool {
-        return lhs.name == rhs.name
+        lhs.name == rhs.name
     }
     
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.name)
-        hasher.combine(self.notes)
-        hasher.combine(self.synopsisOrVersion)
+        hasher.combine(name)
+        hasher.combine(notes)
+        hasher.combine(synopsisOrVersion)
     }
     
     public func loadScreenshotsAsync() {
-        let folder = self.getScreenshotsFolder()
+        let folder = getScreenshotsFolder()
         
-        if (self.screenshotsWatcher == nil) {
+        if screenshotsWatcher == nil {
             let watcher = FileWatcher([folder.path])
             watcher.queue = DispatchQueue.global(qos: .background)
+            
             watcher.callback = { _ in
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                     self.loadScreenshotsAsync()
                 }
             }
-            self.screenshotsWatcher = watcher
+            
+            screenshotsWatcher = watcher
             watcher.start()
         }
         Task {
             let fm = FileManager.default
             var isDirectory: ObjCBool = true
+            
             if fm.fileExists(atPath: folder.path, isDirectory: &isDirectory) && isDirectory.boolValue {
                 let urls: [URL]
                 
                 do {
                     urls = try fm.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)
                 } catch {
-                    ErrorTracker.instance.error(error: error, description: "Error reading screenshots folder for instance \(self.name)")
+                    ErrorTracker.instance.error(error: error, description: "Error reading screenshots folder for instance \(name)")
                     return
                 }
                 
@@ -229,30 +239,34 @@ public class Instance: Identifiable, Hashable, InstanceData, ObservableObject {
     }
     
     public func loadModsAsync() {
-        let modsFolder = self.getModsFolder()
+        let modsFolder = getModsFolder()
         
-        if (self.modsWatcher == nil) {
+        if modsWatcher == nil {
             let watcher = FileWatcher([modsFolder.path])
             watcher.queue = DispatchQueue.global(qos: .background)
+            
             watcher.callback = { _ in
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                     self.loadModsAsync()
                 }
             }
-            self.modsWatcher = watcher
+            
+            modsWatcher = watcher
             watcher.start()
         }
+        
         Task {
             let fm = FileManager.default
             var isDirectory: ObjCBool = true
+            
             if fm.fileExists(atPath: modsFolder.path, isDirectory: &isDirectory) && isDirectory.boolValue {
                 let urls: [URL]
                 
                 do {
                     urls = try fm.contentsOfDirectory(at: modsFolder, includingPropertiesForKeys: nil)
                 } catch {
-                    logger.error("Error reading mods folder for instance \(self.name)", error: error)
-                    ErrorTracker.instance.error(error: error, description: "Error reading mods folder for instance \(self.name)")
+                    logger.error("Error reading mods folder for instance \(name)", error: error)
+                    ErrorTracker.instance.error(error: error, description: "Error reading mods folder for instance \(name)")
                     return
                 }
                 
@@ -264,30 +278,33 @@ public class Instance: Identifiable, Hashable, InstanceData, ObservableObject {
     }
     
     public func loadWorldsAsync() {
-        let worldsFolder = self.getSavesFolder()
+        let worldsFolder = getSavesFolder()
         
-        if (self.worldsWatcher == nil) {
+        if worldsWatcher == nil {
             let watcher = FileWatcher([worldsFolder.path])
             watcher.queue = DispatchQueue.global(qos: .background)
+            
             watcher.callback = { _ in
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                     self.loadWorldsAsync()
                 }
             }
-            self.worldsWatcher = watcher
+            
+            worldsWatcher = watcher
             watcher.start()
         }
         Task {
             let fm = FileManager.default
             var isDirectory: ObjCBool = true
+            
             if fm.fileExists(atPath: worldsFolder.path, isDirectory: &isDirectory) && isDirectory.boolValue {
                 let urls: [URL]
                 
                 do {
                     urls = try fm.contentsOfDirectory(at: worldsFolder, includingPropertiesForKeys: nil)
                 } catch {
-                    logger.error("Error reading mods folder for instance \(self.name)", error: error)
-                    ErrorTracker.instance.error(error: error, description: "Error reading mods folder for instance \(self.name)")
+                    logger.error("Error reading mods folder for instance \(name)", error: error)
+                    ErrorTracker.instance.error(error: error, description: "Error reading mods folder for instance \(name)")
                     return
                 }
                 

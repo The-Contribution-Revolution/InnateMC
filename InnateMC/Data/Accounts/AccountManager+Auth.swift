@@ -8,58 +8,69 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import Foundation
 
 extension AccountManager {
     public func setupMicrosoftAccount(code: String) {
-        guard let msAccountViewModel = self.msAccountViewModel else {
+        guard let msAccountViewModel else {
             return
         }
         
         Task(priority: .high) {
             do {
-                let msAccessToken: MicrosoftAccessToken = try await self.authenticateWithMicrosoft(code: code, clientId: self.clientId)
+                let msAccessToken = try await authenticateWithMicrosoft(code: code, clientId: clientId)
                 DispatchQueue.main.async {
                     msAccountViewModel.setAuthWithXboxLive()
                 }
+                
                 logger.debug("Authenticated with microsoft")
-                let xblResponse = try await self.authenticateWithXBL(msAccessToken: msAccessToken.token)
+                let xblResponse = try await authenticateWithXBL(msAccessToken: msAccessToken.token)
                 DispatchQueue.main.async {
                     msAccountViewModel.setAuthWithXboxXSTS()
                 }
+                
                 logger.debug("Authenticated with xbox live")
-                let xstsResponse: XboxAuthResponse = try await self.authenticateWithXSTS(xblToken: xblResponse.token)
+                let xstsResponse = try await authenticateWithXSTS(xblToken: xblResponse.token)
+                
                 DispatchQueue.main.async {
                     msAccountViewModel.setAuthWithMinecraft()
                 }
+                
                 logger.debug("Authenticated with xbox xsts")
-                let mcResponse: MinecraftAuthResponse = try await self.authenticateWithMinecraft(using: .init(xsts: xstsResponse))
+                let mcResponse = try await authenticateWithMinecraft(using: .init(xsts: xstsResponse))
+                
                 DispatchQueue.main.async {
                     msAccountViewModel.setFetchingProfile()
                 }
+                
                 logger.debug("Authenticated with minecraft")
-                let profile: MinecraftProfile = try await self.getProfile(accessToken: mcResponse.accessToken)
+                
+                let profile = try await getProfile(accessToken: mcResponse.accessToken)
                 logger.debug("Fetched minecraft profile")
-                let account: MicrosoftAccount = .init(profile: profile, token: msAccessToken)
-                self.accounts[account.id] = account
+                
+                let account = MicrosoftAccount(profile: profile, token: msAccessToken)
+                accounts[account.id] = account
                 logger.info("Successfully added microsoft account \(profile.name)")
+                
                 DispatchQueue.main.async {
                     msAccountViewModel.closeSheet()
                     self.msAccountViewModel = nil
                 }
             } catch let error as MicrosoftAuthError {
                 logger.error("Caught error during authentication", error: error)
+                
                 DispatchQueue.main.async {
                     msAccountViewModel.error(error)
                     self.msAccountViewModel = nil
                 }
+                
                 return
             } catch {
                 fatalError("Unknown error - this is bug - \(error)")
@@ -72,6 +83,7 @@ extension AccountManager {
             let (data, response) = try await Http.post("https://api.minecraftservices.com/authentication/login_with_xbox")
                 .json(auth)
                 .request()
+            
             guard let httpResponse = response as? HTTPURLResponse, 200..<300 ~= httpResponse.statusCode else {
                 logger.error("Received invalid status code from minecraft authentication server")
                 throw MicrosoftAuthError.minecraftInvalidResponse
@@ -148,7 +160,7 @@ extension AccountManager {
     }
     
     func authenticateWithMicrosoft(code: String, clientId: String) async throws -> MicrosoftAccessToken {
-        let msParameters: [String: String] = [
+        let msParameters = [
             "client_id": clientId,
             "scope": "XboxLive.signin offline_access",
             "code": code,
@@ -182,7 +194,7 @@ extension AccountManager {
     }
     
     func refreshMicrosoftToken(_ token: MicrosoftAccessToken) async throws -> MicrosoftAccessToken {
-        let msParameters: [String: String] = [
+        let msParameters = [
             "client_id": clientId,
             "scope": "XboxLive.signin offline_access",
             "refresh_token": token.refreshToken,

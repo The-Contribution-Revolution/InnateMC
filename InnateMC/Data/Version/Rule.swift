@@ -8,11 +8,11 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import Foundation
@@ -23,8 +23,8 @@ public struct Rule: Codable, Equatable {
     let os: OS?
     
     public enum ActionType: String, Codable, Equatable {
-        case allow
-        case disallow
+        case allow,
+             disallow
     }
     
     public struct OS: Codable, Equatable {
@@ -33,25 +33,28 @@ public struct Rule: Codable, Equatable {
         let arch: String?
         
         public enum OSName: String, Codable, Equatable {
-            case osx
-            case linux
-            case windows
+            case osx,
+                 linux,
+                 windows
         }
     }
     
     public func matches(givenFeatures: [String:Bool]) -> Bool {
         var ok = true
-        if let os = os {
+        
+        if let os {
             if let name = os.name {
                 ok = ok && name == .osx
             }
             // TODO: implement
         }
-        if let features = features {
+        
+        if let features {
             for (feature, value) in features where ok == true {
                 ok = ok && (givenFeatures[feature] == value)
             }
         }
+        
         return ok
     }
 }
@@ -59,9 +62,11 @@ public struct Rule: Codable, Equatable {
 extension Array where Element == Rule {
     func allMatchRules(givenFeatures: [String:Bool]) -> Bool {
         var ok = true
+        
         for rule in self where ok == true {
             ok = ok && rule.matches(givenFeatures: givenFeatures)
         }
+        
         return ok
     }
 }

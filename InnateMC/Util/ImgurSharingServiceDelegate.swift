@@ -8,23 +8,25 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import Cocoa
 
 class ImgurSharingServiceDelegate: NSObject, NSSharingServicePickerDelegate {
-    lazy var image: NSImage = .init(named: "imgurIcon")!
+    lazy var image = NSImage(named: "imgurIcon")!
     
     func sharingServicePicker(_ sharingServicePicker: NSSharingServicePicker, sharingServicesForItems items: [Any], proposedSharingServices proposedServices: [NSSharingService]) -> [NSSharingService] {
         var share = proposedServices
-        let imgurService = NSSharingService(title: "Imgur", image: image, alternateImage: image, handler: {
+        
+        let imgurService = NSSharingService(title: "Imgur", image: image, alternateImage: image) {
             print("testing")
-        })
+        }
+        
         share.insert(imgurService, at: 0)
         
         return share

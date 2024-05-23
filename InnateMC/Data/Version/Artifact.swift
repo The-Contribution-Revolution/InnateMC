@@ -8,17 +8,18 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import Foundation
 
 public struct Artifact: Codable, Equatable {
-    public static let none: Artifact = .init(sha1: "", size: 0, url: URL(string: "/")!)
+    public static let none = Artifact(sha1: "", size: 0, url: URL(string: "/")!)
+    
     var sha1: String
     var size: Int
     var url: URL

@@ -8,22 +8,22 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import Foundation
 
 public struct PartialAssetIndex: Codable, Equatable {
-    public static let none: PartialAssetIndex = .init(id: "none", sha1: "", url: "")
+    public static let none = PartialAssetIndex(id: "none", sha1: "", url: "")
     public let id: String
     public let sha1: String
     public let url: String
     
     public func `default`(fallback: PartialAssetIndex) -> PartialAssetIndex {
-        return self == .none ? fallback : self
+        self == .none ? fallback : self
     }
 }

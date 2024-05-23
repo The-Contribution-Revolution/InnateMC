@@ -8,18 +8,18 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import SwiftUI
 
 class MicrosoftAccountViewModel: ObservableObject {
-    @Published var showMicrosoftAccountSheet: Bool = false
-    @Published var message: LocalizedStringKey = i18n("authenticating_with_microsoft")
+    @Published var showMicrosoftAccountSheet = false
+    @Published var message = i18n("authenticating_with_microsoft")
     @Published var error: MicrosoftAuthError = .noError
     
     @MainActor func error(_ error: MicrosoftAuthError) {
@@ -28,30 +28,30 @@ class MicrosoftAccountViewModel: ObservableObject {
     }
     
     @MainActor func prepareAndOpenSheet(launcherData: LauncherData) {
-        self.showMicrosoftAccountSheet = true
+        showMicrosoftAccountSheet = true
         launcherData.accountManager.msAccountViewModel = self
         launcherData.accountManager.createAuthWindow().showWindow(InnateMCApp.self)
     }
     
     @MainActor func closeSheet() {
-        self.showMicrosoftAccountSheet = false
-        self.error(.noError)
-        self.message = i18n("authenticating_with_microsoft")
+        showMicrosoftAccountSheet = false
+        error(.noError)
+        message = i18n("authenticating_with_microsoft")
     }
     
     @MainActor func setAuthWithXboxLive() {
-        self.message = i18n("authenticating_with_xbox_live")
+        message = i18n("authenticating_with_xbox_live")
     }
     
     @MainActor func setAuthWithXboxXSTS() {
-        self.message = i18n("authenticating_with_xbox_xsts")
+        message = i18n("authenticating_with_xbox_xsts")
     }
     
     @MainActor func setAuthWithMinecraft() {
-        self.message = i18n("authenticating_with_minecraft")
+        message = i18n("authenticating_with_minecraft")
     }
     
     @MainActor func setFetchingProfile() {
-        self.message = i18n("fetching_profile")
+        message = i18n("fetching_profile")
     }
 }

@@ -8,11 +8,11 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import Foundation
@@ -23,6 +23,7 @@ public class ParallelExecutor {
         progress.current = 0
         progress.total = tasks.count
         logger.debug("Executing \(tasks.count) tasks")
+        
         for task in tasks {
             Task(priority: .medium) {
                 task()
@@ -34,7 +35,7 @@ public class ParallelExecutor {
     }
     
     internal static func isSha1Valid(data: Data, expected: String?) -> Bool {
-        guard let expected = expected else {
+        guard let expected else {
             return true
         }
         let real = Insecure.SHA1.hash(data: data).compactMap { String(format: "%02x", $0) }.joined()

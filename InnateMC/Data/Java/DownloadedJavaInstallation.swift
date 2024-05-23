@@ -8,11 +8,11 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import Foundation
@@ -23,16 +23,17 @@ public class DownloadedJavaInstallation: Codable, Identifiable {
 }
 
 extension DownloadedJavaInstallation {
-    public static let filePath: URL = FileHandler.javaFolder.appendingPathComponent("Index.plist")
+    public static let filePath = FileHandler.javaFolder.appendingPathComponent("Index.plist")
     public static let encoder = PropertyListEncoder()
     public static let decoder = PropertyListDecoder()
     
     public static func load() throws -> [DownloadedJavaInstallation] {
         let data = try FileHandler.getData(filePath)
         
-        guard let data = data else {
+        guard let data else {
             return []
         }
+        
         do {
             let versions: [DownloadedJavaInstallation] = try decoder.decode([DownloadedJavaInstallation].self, from: data)
             logger.info("Loaded \(versions.count) downloaded java installations")

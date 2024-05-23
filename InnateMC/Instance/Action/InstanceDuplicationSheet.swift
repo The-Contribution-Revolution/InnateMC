@@ -8,32 +8,47 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import SwiftUI
 
 struct InstanceDuplicationSheet: View {
-    @EnvironmentObject var launcherData: LauncherData
-    @Binding var showDuplicationSheet: Bool
     @StateObject var instance: Instance
-    @State var newName: String = ""
+    @EnvironmentObject private var launcherData: LauncherData
+    
+    @Binding var showDuplicationSheet: Bool
+    
+    @State private var newName = ""
     
     var body: some View {
         VStack {
             // TODO: allow selecting what and what not to duplicate
             Form {
                 TextField(i18n("name"), text: $newName)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .textFieldStyle(.roundedBorder)
             }
             .padding()
+            
             HStack {
                 Button(i18n("duplicate")) {
-                    let newInstance = Instance(name: self.newName, assetIndex: instance.assetIndex, libraries: instance.libraries, mainClass: instance.mainClass, minecraftJar: instance.minecraftJar, isStarred: false, logo: instance.logo, description: instance.notes, debugString: instance.debugString, arguments: instance.arguments)
+                    let newInstance = Instance(
+                        name: newName,
+                        assetIndex: instance.assetIndex,
+                        libraries: instance.libraries,
+                        mainClass: instance.mainClass,
+                        minecraftJar: instance.minecraftJar,
+                        isStarred: false,
+                        logo: instance.logo,
+                        description: instance.notes,
+                        debugString: instance.debugString,
+                        arguments: instance.arguments
+                    )
+                    
                     DispatchQueue.global(qos: .userInteractive).async {
                         do {
                             try newInstance.createAsNewInstance()
@@ -43,18 +58,20 @@ struct InstanceDuplicationSheet: View {
                             ErrorTracker.instance.error(error: error, description: "Could not duplicate instance \(newName)")
                         }
                     }
-                    self.launcherData.instances.append(newInstance)
-                    self.showDuplicationSheet = false
+                    
+                    launcherData.instances.append(newInstance)
+                    showDuplicationSheet = false
                 }
                 .padding()
+                
                 Button(i18n("cancel")) {
-                    self.showDuplicationSheet = false
+                    showDuplicationSheet = false
                 }
                 .padding()
             }
         }
         .onAppear {
-            self.newName = "Copy of \(instance.name)" // TODO: localize
+            newName = "Copy of \(instance.name)" // TODO: localize
         }
     }
 }

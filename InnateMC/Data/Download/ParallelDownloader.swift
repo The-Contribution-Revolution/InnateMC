@@ -8,11 +8,11 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import Foundation
@@ -41,6 +41,7 @@ public struct ParallelDownloader {
                 
                 if fileExists {
                     let isHashValid = checkHash(path: destinationUrl, expected: task.sha1)
+                    
                     if isHashValid {
                         DispatchQueue.main.async {
                             progress.inc()
@@ -57,6 +58,7 @@ public struct ParallelDownloader {
                         DispatchQueue.main.async {
                             onError(LaunchError.errorDownloading(error: error))
                         }
+                        
                         downloadGroup.leave()
                         return
                     } else if let tempUrl = tempUrl {
@@ -65,9 +67,11 @@ public struct ParallelDownloader {
                             if !checkHash(path: tempUrl, expected: task.sha1) {
                                 throw LaunchError.invalidShaHash(error: nil)
                             }
+                            
                             let fileManager = FileManager.default
                             if !fileExists {
                                 try fileManager.createDirectory(at: destinationUrl.deletingLastPathComponent(), withIntermediateDirectories: true)
+                                
                                 if !FileManager.default.fileExists(atPath: destinationUrl.path) {
                                     try fileManager.moveItem(at: tempUrl, to: destinationUrl)
                                 }
@@ -117,14 +121,14 @@ public struct ParallelDownloader {
     }
     
     private static func checkHash(path: URL, expected expectedHashString: String?) -> Bool {
-        if let expectedHashString = expectedHashString {
+        if let expectedHashString {
             if let actualHashString = calculateSHA1Hash(for: path) {
-                return actualHashString == expectedHashString
+                actualHashString == expectedHashString
             } else {
-                return false
+                false
             }
         } else {
-            return true
+            true
         }
     }
 }

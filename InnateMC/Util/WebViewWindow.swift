@@ -8,11 +8,11 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import WebKit
@@ -23,11 +23,14 @@ class WebViewWindow: NSWindowController {
     convenience init(url: URL) {
         let config: WKWebViewConfiguration = .init()
         config.websiteDataStore = WKWebsiteDataStore.nonPersistent()
+        
         let webView: WKWebView = .init(frame: .init(x: 0, y: 0, width: 400, height: 600), configuration: config)
         webView.load(URLRequest(url: url))
+        
         let window: NSWindow = .init(contentRect: NSRect(x: 0, y: 0, width: 400, height: 600), styleMask: [.titled, .closable], backing: .buffered, defer: false)
         window.contentView = webView
         window.title = NSLocalizedString("login_with_microsoft", comment: "no u")
+        
         self.init(window: window)
         Self.current = self
     }

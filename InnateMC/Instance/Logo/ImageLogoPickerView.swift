@@ -8,26 +8,27 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import SwiftUI
 
 struct ImageLogoPickerView: View {
-    @State var shouldShowFileImporter: Bool = false
-    @State var showImagePreview: Bool = false
     var instance: Instance
+    
+    @State private var shouldShowFileImporter = false
+    @State private var showImagePreview = false
     
     var body: some View {
         VStack {
             if showImagePreview {
-                AsyncImage(url: instance.getLogoPath(), content: {
+                AsyncImage(url: instance.getLogoPath()) {
                     $0.resizable().scaledToFit()
-                }) {
+                } placeholder: {
                     Image(systemName: "tray.circle").resizable()
                 }
             }
@@ -37,23 +38,30 @@ struct ImageLogoPickerView: View {
             .padding(.all, 50)
             .fileImporter(isPresented: $shouldShowFileImporter, allowedContentTypes: [.png]) { result in
                 let url: URL
+                
                 do {
                     url = try result.get()
                 } catch {
                     return
                 }
+                
                 // TODO: error handling
                 let fm = FileManager.default
                 let logoPath = instance.getLogoPath()
+                
                 if fm.fileExists(atPath: logoPath.path) {
                     try! fm.removeItem(at: logoPath)
                 }
+                
                 try! fm.copyItem(at: url, to: logoPath)
+                
                 DispatchQueue.main.async {
                     instance.logo = InstanceLogo(logoType: .file, string: "")
+                    
                     DispatchQueue.global().async {
                         try! instance.save()
                     }
+                    
                     showImagePreview = true
                 }
             }

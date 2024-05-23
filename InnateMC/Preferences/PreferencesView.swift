@@ -8,44 +8,44 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import SwiftUI
 
 struct PreferencesView: View {
-    @EnvironmentObject var launcherData: LauncherData
-
+    @EnvironmentObject private var launcherData: LauncherData
+    
     var body: some View {
         TabView(selection: $launcherData.selectedPreferenceTab) {
             RuntimePreferencesView()
-                .tabItem({
-                    Label(i18n("runtime"), systemImage: "cup.and.saucer")
-                })
                 .tag(SelectedPreferenceTab.runtime)
+                .tabItem {
+                    Label(i18n("runtime"), systemImage: "cup.and.saucer")
+                }
             AccountsPreferencesView()
-                .tabItem({
-                    Label(i18n("accounts"), systemImage: "person.circle")
-                })
                 .tag(SelectedPreferenceTab.accounts)
+                .tabItem {
+                    Label(i18n("accounts"), systemImage: "person.circle")
+                }
             UiPreferencesView()
-                .tabItem({
-                    Label(i18n("user_interface"), systemImage: "paintbrush.pointed")
-                })
                 .tag(SelectedPreferenceTab.ui)
+                .tabItem {
+                    Label(i18n("user_interface"), systemImage: "paintbrush.pointed")
+                }
             MiscPreferencesView()
-                .tabItem({
-                    Label(i18n("misc"), systemImage: "slider.horizontal.3")
-                })
                 .tag(SelectedPreferenceTab.misc)
+                .tabItem {
+                    Label(i18n("misc"), systemImage: "slider.horizontal.3")
+                }
         }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                self.launcherData.initializePreferenceListenerIfNot()
+                launcherData.initializePreferenceListenerIfNot()
             }
         }
     }

@@ -8,31 +8,31 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import Foundation
 
 public struct FabricMeta {
     static func `get`(path: String) -> Http.RequestBuilder {
-        return Http.get("https://meta.fabricmc.net/\(path)")
+        Http.get("https://meta.fabricmc.net/\(path)")
     }
     
     static func requestFabricLoaderVersions() -> Http.RequestBuilder {
-        return Self.get(path: "/v2/versions/loader")
+        get(path: "/v2/versions/loader")
     }
     
     static func requestProfile(gameVersion: String, loaderVersion: String) -> Http.RequestBuilder {
-        return Self.get(path: "/v2/versions/loader/\(gameVersion)/\(loaderVersion)/profile/json")
+        get(path: "/v2/versions/loader/\(gameVersion)/\(loaderVersion)/profile/json")
     }
     
     static func getFabricLoaderVersions() async throws -> [FabricLoaderVersion] {
         do {
-            let (data, response) = try await Self.requestFabricLoaderVersions().request()
+            let (data, response) = try await requestFabricLoaderVersions().request()
             
             guard let httpResponse = response as? HTTPURLResponse, 200..<300 ~= httpResponse.statusCode else {
                 logger.error("Received invalid status code from fabric meta while fetching profile")
@@ -55,7 +55,7 @@ public struct FabricMeta {
     
     static func getProfile(gameVersion: String, loaderVersion: String) async throws -> Version {
         do {
-            let (data, response) = try await Self.requestProfile(gameVersion: gameVersion, loaderVersion: loaderVersion).request()
+            let (data, response) = try await requestProfile(gameVersion: gameVersion, loaderVersion: loaderVersion).request()
             
             guard let httpResponse = response as? HTTPURLResponse, 200..<300 ~= httpResponse.statusCode else {
                 logger.error("Received invalid status code from fabric meta while fetching profile")
@@ -78,9 +78,9 @@ public struct FabricMeta {
     }
     
     enum FabricMetaError: Error {
-        case loaderVersionsInvalidResponse
-        case loaderVersionsCouldNotConnect
-        case profileInvalidResponse
-        case profileCouldNotConnect
+        case loaderVersionsInvalidResponse,
+             loaderVersionsCouldNotConnect,
+             profileInvalidResponse,
+             profileCouldNotConnect
     }
 }

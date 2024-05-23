@@ -8,11 +8,11 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import Foundation
@@ -31,14 +31,14 @@ public struct Library: Codable, Equatable {
     public init(from decoder: Decoder) throws {
         if let container = try? decoder.singleValueContainer(),
            let artifact = try? container.decode(ConcLibrary.self) {
-            self.downloads = LibraryDownloads(artifact: LibraryArtifact(path: artifact.mavenStringToPath(), url: URL(string: artifact.mavenUrl())!, sha1: nil, size: nil))
-            self.name = artifact.name
-            self.rules = nil
+            downloads = LibraryDownloads(artifact: LibraryArtifact(path: artifact.mavenStringToPath(), url: URL(string: artifact.mavenUrl())!, sha1: nil, size: nil))
+            name = artifact.name
+            rules = nil
         } else {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.name = try container.decode(String.self, forKey: .name)
-            self.downloads = try container.decode(LibraryDownloads.self, forKey: .downloads)
-            self.rules = try container.decodeIfPresent([Rule].self, forKey: .rules)
+            name = try container.decode(String.self, forKey: .name)
+            downloads = try container.decode(LibraryDownloads.self, forKey: .downloads)
+            rules = try container.decodeIfPresent([Rule].self, forKey: .rules)
         }
     }
     
@@ -47,7 +47,7 @@ public struct Library: Codable, Equatable {
         public let url: String
         
         func mavenStringToPath() -> String {
-            let components = self.name.components(separatedBy: ":")
+            let components = name.components(separatedBy: ":")
             let group = components[0].replacingOccurrences(of: ".", with: "/")
             let artifact = components[1].replacingOccurrences(of: ".", with: "/")
             let version = components[2]
@@ -57,7 +57,7 @@ public struct Library: Codable, Equatable {
         }
         
         func mavenUrl() -> String {
-            return "\(url)\(mavenStringToPath())"
+            "\(url)\(mavenStringToPath())"
         }
     }
 }
@@ -76,12 +76,15 @@ public struct LibraryDownloads: Codable, Equatable {
     
     public var artifacts: [LibraryArtifact] {
         var arr: [LibraryArtifact] = []
-        if let classifiers = classifiers, let natives = classifiers.nativesOsx {
+        
+        if let classifiers, let natives = classifiers.nativesOsx {
             arr.append(natives)
         }
-        if let artifact = self.artifact {
+        
+        if let artifact {
             arr.append(artifact)
         }
+        
         return arr
     }
 }

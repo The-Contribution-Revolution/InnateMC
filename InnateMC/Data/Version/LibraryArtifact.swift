@@ -8,11 +8,11 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import Foundation
@@ -31,10 +31,10 @@ public struct LibraryArtifact: Codable, Equatable {
     }
     
     private enum CodingKeys: String, CodingKey {
-        case path
-        case url
-        case sha1
-        case size
+        case path,
+             url,
+             sha1,
+             size
     }
     
     public init(from decoder: Decoder) throws {
@@ -60,10 +60,10 @@ public struct LibraryArtifact: Codable, Equatable {
     }
     
     public func getAbsolutePath() -> URL {
-        return FileHandler.librariesFolder.appendingPathComponent(self.path, isDirectory: false)
+        FileHandler.librariesFolder.appendingPathComponent(path, isDirectory: false)
     }
     
     public func asDownloadTask() -> DownloadTask {
-        return DownloadTask(sourceUrl: url, filePath: self.getAbsolutePath(), sha1: self.sha1) // TODO: fix sha1 checking for libraries
+        DownloadTask(sourceUrl: url, filePath: getAbsolutePath(), sha1: sha1) // TODO: fix sha1 checking for libraries
     }
 }

@@ -8,11 +8,11 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import Foundation
@@ -20,33 +20,35 @@ import Foundation
 public class SavedJavaInstallation: Codable, Identifiable, ObservableObject {
     public static let systemDefault = SavedJavaInstallation(javaHomePath: "/usr", javaVendor: "System Default", javaVersion: "")
     private static let regex = try! NSRegularExpression(pattern: "\"([^\"]+)\"", options: [])
+    
     public var id: SavedJavaInstallation {
-        return self
+        self
     }
+    
     @Published public var javaExecutable: String
     @Published public var javaVendor: String?
     @Published public var javaVersion: String?
     public let installationType: InstallationType
     
     public init(javaHomePath: String, javaVendor: String? = nil, javaVersion: String? = nil) {
-        self.javaExecutable = "\(javaHomePath)/bin/java"
         self.javaVendor = javaVendor
         self.javaVersion = javaVersion
-        self.installationType = .detected
+        javaExecutable = "\(javaHomePath)/bin/java"
+        installationType = .detected
     }
     
     public init(javaExecutable: String) {
         self.javaExecutable = javaExecutable
-        self.javaVendor = nil
-        self.javaVersion = nil
-        self.installationType = .selected
+        javaVendor = nil
+        javaVersion = nil
+        installationType = .selected
     }
     
     public init(linkedJavaInstallation: LinkedJavaInstallation) {
-        self.javaExecutable = "\(linkedJavaInstallation.JVMHomePath)/bin/java"
-        self.javaVendor = linkedJavaInstallation.JVMVendor
-        self.javaVersion = linkedJavaInstallation.JVMVersion
-        self.installationType = .detected
+        javaExecutable = "\(linkedJavaInstallation.JVMHomePath)/bin/java"
+        javaVendor = linkedJavaInstallation.JVMVendor
+        javaVersion = linkedJavaInstallation.JVMVersion
+        installationType = .detected
     }
     
     public func setupAsNewVersion(launcherData: LauncherData) {
@@ -88,26 +90,30 @@ public class SavedJavaInstallation: Codable, Identifiable, ObservableObject {
     
     private func extractProperty(from output: String, key: String) -> String? {
         let lines = output.components(separatedBy: .newlines)
+        
         for line in lines {
             if line.contains(key) {
                 let components = line.components(separatedBy: "=")
+                
                 if components.count == 2 {
                     return components[1].trimmingCharacters(in: .whitespaces)
                 }
             }
         }
+        
         return nil
     }
     
     public func getString() -> String {
-        guard let javaVersion = javaVersion else {
-            guard let javaVendor = javaVendor else {
+        guard let javaVersion else {
+            guard let javaVendor else {
                 return javaExecutable
             }
+            
             return "\(javaVendor) at \(javaExecutable)"
         }
         
-        guard let javaVendor = javaVendor else {
+        guard let javaVendor else {
             return "\(javaVersion) | \(javaExecutable)"
         }
         
@@ -117,23 +123,23 @@ public class SavedJavaInstallation: Codable, Identifiable, ObservableObject {
     public func getDebugString() -> String { // TODO: computed property? allows using a keypath in Table
         if let javaVersion = javaVersion {
             if let javaVendor = javaVendor {
-                return "\(javaVendor) \(javaVersion)"
+                "\(javaVendor) \(javaVersion)"
             } else {
-                return javaVersion
+                javaVersion
             }
         } else {
             if let javaVendor = javaVendor {
-                return javaVendor
+                javaVendor
             } else {
-                return "Unknown"
+                "Unknown"
             }
         }
     }
     
     public enum InstallationType: Codable, Hashable, Equatable {
-        case detected // detected from /usr/libexec/java_home
-        case selected // user selected
-        case downloaded // downloaded by InnateMC
+        case detected, // detected from /usr/libexec/java_home
+             selected, // user selected
+             downloaded // downloaded by InnateMC
     }
 }
 
@@ -162,11 +168,11 @@ extension SavedJavaInstallation {
 
 extension SavedJavaInstallation: Hashable {
     public static func == (lhs: SavedJavaInstallation, rhs: SavedJavaInstallation) -> Bool {
-        return lhs.javaExecutable == rhs.javaExecutable
+        lhs.javaExecutable == rhs.javaExecutable
     }
     
     public func hash(into hasher: inout Hasher) {
-        return hasher.combine(javaExecutable)
+        hasher.combine(javaExecutable)
     }
 }
 
@@ -180,6 +186,8 @@ extension Array where Element == SavedJavaInstallation {
 
 extension Array where Element == LinkedJavaInstallation {
     func toSaved() -> [SavedJavaInstallation] {
-        return self.map { SavedJavaInstallation(linkedJavaInstallation: $0) }
+        self.map {
+            SavedJavaInstallation(linkedJavaInstallation: $0)
+        }
     }
 }

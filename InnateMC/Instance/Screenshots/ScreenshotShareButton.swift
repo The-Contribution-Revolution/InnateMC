@@ -8,14 +8,13 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
-import Cocoa
 import SwiftUI
 
 public struct ScreenshotShareButton: NSViewRepresentable {
@@ -34,7 +33,7 @@ public struct ScreenshotShareButton: NSViewRepresentable {
     }
     
     public func updateNSView(_ nsView: NSButton, context: Context) {
-        context.coordinator.selectedItem = self.selectedItem
+        context.coordinator.selectedItem = selectedItem
     }
     
     public func makeCoordinator() -> Coordinator {
@@ -52,13 +51,13 @@ public struct ScreenshotShareButton: NSViewRepresentable {
         }
         
         @objc func buttonClicked() {
-            guard let selectedItem = selectedItem else {
+            guard let selectedItem else {
                 return
             }
             
             let sharingItems = [selectedItem.path as Any]
             let sharingServicePicker = NSSharingServicePicker(items: sharingItems)
-            sharingServicePicker.delegate = self.delegate
+            sharingServicePicker.delegate = delegate
             sharingServicePicker.show(relativeTo: .zero, of: button!, preferredEdge: .minY)
         }
     }

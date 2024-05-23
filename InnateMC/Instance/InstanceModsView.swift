@@ -8,23 +8,27 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import SwiftUI
 
 struct InstanceModsView: View {
     @StateObject var instance: Instance
-    @State var selected: Set<Mod> = []
-    @State var sortOrder: [KeyPathComparator<Mod>] = [ .init(\.meta.name, order: SortOrder.forward) ]
+    
+    @State private var selected: Set<Mod> = []
+    @State private var sortOrder: [KeyPathComparator<Mod>] = [
+        .init(\.meta.name, order: SortOrder.forward)
+    ]
     
     var body: some View {
         Table(instance.mods, selection: $selected, sortOrder: $sortOrder) {
             TableColumn("Name", value: \.meta.name)
+            
             TableColumn("File", value: \.path.lastPathComponent)
         }
         .onAppear {

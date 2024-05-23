@@ -8,17 +8,17 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
-public func setting<T>(_ path: KeyPath<GlobalPreferences, T>) -> T {
-    return LauncherData.instance.globalPreferences[keyPath: path]
+public func setting<T> (_ path: KeyPath<GlobalPreferences, T>) -> T {
+    LauncherData.instance.globalPreferences[keyPath: path]
 }
 
-public func setting<T>(_ path: KeyPath<InstancePreferences, T>, for instance: Instance) -> T {
-    return instance.preferences[keyPath: path]
+public func setting<T> (_ path: KeyPath<InstancePreferences, T>, for instance: Instance) -> T {
+    instance.preferences[keyPath: path]
 }

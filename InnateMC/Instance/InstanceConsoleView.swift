@@ -8,28 +8,30 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import SwiftUI
 
 struct InstanceConsoleView: View {
     var instance: Instance
+    
     @Binding var launchedInstanceProcess: InstanceProcess?
-    @EnvironmentObject var launcherData: LauncherData
-    @State var launchedInstances: [Instance:InstanceProcess]? = nil
-    @State var logMessages: [String] = []
+    @EnvironmentObject private var launcherData: LauncherData
+    
+    @State private var launchedInstances: [Instance: InstanceProcess]? = nil
+    @State private var logMessages: [String] = []
     
     var body: some View {
         VStack {
             ScrollViewReader { proxy in
                 ScrollView {
                     LazyVStack(alignment: .leading, spacing: 8) {
-                        ForEach(self.logMessages, id: \.self) { message in
+                        ForEach(logMessages, id: \.self) { message in
                             Text(message)
                                 .font(.system(.body, design: .monospaced))
                                 .id(message)
@@ -37,13 +39,13 @@ struct InstanceConsoleView: View {
                     }
                     .padding(.horizontal)
                     .padding(.vertical, 8)
-                    .id(self.logMessages)
+                    .id(logMessages)
                 }
-                .background(Color(NSColor.textBackgroundColor))
+                .background(Color(.textBackgroundColor))
                 .cornerRadius(8)
                 .overlay(
                     RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color.secondary, lineWidth: 1)
+                        .stroke(.secondary, lineWidth: 1)
                 )
                 .padding(.all, 7)
                 
@@ -54,17 +56,19 @@ struct InstanceConsoleView: View {
                 }
                 .padding([.top, .leading, .trailing], 5)
                 
-                if self.launchedInstanceProcess != nil {
+                if let launchedInstanceProcess {
                     ZStack {
+                        
                     }
                     .onAppear {
                         withAnimation {
-                            proxy.scrollTo(self.logMessages.last, anchor: .bottom)
+                            proxy.scrollTo(logMessages.last, anchor: .bottom)
                         }
-                        self.logMessages = self.launchedInstanceProcess!.logMessages
+                        
+                        logMessages = launchedInstanceProcess.logMessages
                     }
-                    .onReceive(self.launchedInstanceProcess!.$logMessages) {
-                        self.logMessages = $0
+                    .onReceive(launchedInstanceProcess.$logMessages) {
+                        logMessages = $0
                     }
                 }
             }

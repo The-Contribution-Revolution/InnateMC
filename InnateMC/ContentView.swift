@@ -8,28 +8,30 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject private var launcherData: LauncherData
+    
     private static let nullUuid = UUID(uuidString: "00000000-0000-0000-0000-000000000000")!
-    @State var searchTerm: String = ""
-    @State var starredOnly = false
-    @EnvironmentObject var launcherData: LauncherData
-    @State var isSidebarHidden = false
-    @State var showNewInstanceSheet: Bool = false
-    @State var selectedInstance: Instance? = nil
-    @State var selectedAccount: UUID = ContentView.nullUuid
-    @State var cachedAccounts: [AdaptedAccount] = []
-    @State var showDuplicateInstanceSheet: Bool = false
-    @State var showDeleteInstanceSheet: Bool = false
-    @State var showExportInstanceSheet: Bool = false
+    
+    @State private var searchTerm = ""
+    @State private var starredOnly = false
+    @State private var isSidebarHidden = false
+    @State private var showNewInstanceSheet = false
+    @State private var selectedInstance: Instance? = nil
+    @State private var selectedAccount = ContentView.nullUuid
+    @State private var cachedAccounts: [AdaptedAccount] = []
+    @State private var showDuplicateInstanceSheet = false
+    @State private var showDeleteInstanceSheet = false
+    @State private var showExportInstanceSheet = false
     
     var body: some View {
         NavigationView {
@@ -63,16 +65,16 @@ struct ContentView: View {
                 NewInstanceView(showNewInstanceSheet: $showNewInstanceSheet)
             }
             .sheet(isPresented: $showDeleteInstanceSheet) {
-                InstanceDeleteSheet(showDeleteSheet: $showDeleteInstanceSheet, selectedInstance: $selectedInstance, instanceToDelete: self.selectedInstance!)
+                InstanceDeleteSheet(showDeleteSheet: $showDeleteInstanceSheet, selectedInstance: $selectedInstance, instanceToDelete: selectedInstance!)
             }
             .sheet(isPresented: $showDuplicateInstanceSheet) {
-                InstanceDuplicationSheet(showDuplicationSheet: $showDuplicateInstanceSheet, instance: self.selectedInstance!)
+                InstanceDuplicationSheet(instance: selectedInstance!, showDuplicationSheet: $showDuplicateInstanceSheet)
             }
             .sheet(isPresented: $showExportInstanceSheet) {
-                InstanceExportSheet(showExportSheet: $showExportInstanceSheet, instance: self.selectedInstance!)
+                InstanceExportSheet(showExportSheet: $showExportInstanceSheet, instance: selectedInstance!)
             }
             .onReceive(launcherData.$instances) { newValue in
-                if let selectedInstance = self.selectedInstance {
+                if let selectedInstance {
                     if !newValue.contains(where: { $0 == selectedInstance }) {
                         self.selectedInstance = nil
                     }
@@ -99,26 +101,23 @@ struct ContentView: View {
     func createSidebarToolbar() -> some View {
         Spacer()
         
-        Button(action: {
+        Button {
             NSApp.keyWindow?.firstResponder?.tryToPerform(#selector(NSSplitViewController.toggleSidebar(_:)), with: nil)
-        }) {
+        } label: {
             Image(systemName: "sidebar.leading")
         }
         
         Toggle(isOn: $starredOnly) {
-            if(starredOnly) {
-                Image(systemName: "star.fill")
-            } else{
-                Image(systemName: "star")
-            }
+            Image(systemName: starredOnly ? "star.fill" : "star")
         }
         .help(i18n("show_only_starred"))
         
-        Button(action: {
+        Button {
             showNewInstanceSheet = true
-        }) {
+        } label: {
             Image(systemName: "plus")
-        }.onReceive(launcherData.$newInstanceRequested) { req in
+        }
+        .onReceive(launcherData.$newInstanceRequested) { req in
             if req {
                 showNewInstanceSheet = true
                 launcherData.newInstanceRequested = false
@@ -129,7 +128,7 @@ struct ContentView: View {
     @ViewBuilder
     func createPrimaryToolbar() -> some View {
         Button {
-            self.showDeleteInstanceSheet = true
+            showDeleteInstanceSheet = true
         } label: {
             Image(systemName: "trash")
         }
@@ -137,7 +136,7 @@ struct ContentView: View {
         .help(i18n("delete"))
         
         Button {
-            self.showDuplicateInstanceSheet = true
+            showDuplicateInstanceSheet = true
         } label: {
             Image(systemName: "doc.on.doc")
         }
@@ -145,7 +144,7 @@ struct ContentView: View {
         .help(i18n("duplicate"))
         
         Button {
-            self.showExportInstanceSheet = true
+            showExportInstanceSheet = true
         } label: {
             Image(systemName: "square.and.arrow.up")
         }
@@ -159,7 +158,7 @@ struct ContentView: View {
                 launcherData.launchRequestedInstances.append(selectedInstance!)
             }
         } label: {
-            if let selectedInstance = selectedInstance {
+            if let selectedInstance {
                 if launcherData.launchedInstances.contains(where: { $0.0 == selectedInstance }) {
                     Image(systemName: "square.fill")
                 } else {
@@ -176,10 +175,10 @@ struct ContentView: View {
             if launcherData.editModeInstances.contains(where: { $0 == selectedInstance! }) {
                 launcherData.editModeInstances.removeAll(where: { $0 == selectedInstance! })
             } else {
-                launcherData.editModeInstances.append(self.selectedInstance!)
+                launcherData.editModeInstances.append(selectedInstance!)
             }
         } label: {
-            if let selectedInstance = self.selectedInstance {
+            if let selectedInstance {
                 if launcherData.editModeInstances.contains(where: { $0 == selectedInstance }) {
                     Image(systemName: "checkmark")
                 } else {
@@ -200,13 +199,15 @@ struct ContentView: View {
         Picker(i18n("account"), selection: $selectedAccount) {
             Text(i18n("no_account_selected"))
                 .tag(ContentView.nullUuid)
-            ForEach(self.cachedAccounts) { value in
+            
+            ForEach(cachedAccounts) { value in
                 HStack(alignment: .center) {
-                    AsyncImage(url: URL(string: "https://crafatar.com/avatars/" + value.id.uuidString + "?overlay&size=16"), scale: 1, content: { $0 }) {
+                    AsyncImage(url: URL(string: "https://crafatar.com/avatars/" + value.id.uuidString + "?overlay&size=16"), content: { $0 }) {
                         Image("steve")
                             .resizable()
                             .frame(width: 16, height: 16)
                     }
+                    
                     Text(value.username)
                 }
                 .background(.ultraThickMaterial)
@@ -216,20 +217,22 @@ struct ContentView: View {
         }
         .frame(height: 40)
         .onAppear {
-            self.selectedAccount = launcherData.accountManager.currentSelected ?? ContentView.nullUuid
-            self.cachedAccounts = Array(launcherData.accountManager.accounts.values).map({ AdaptedAccount(from: $0)})
+            selectedAccount = launcherData.accountManager.currentSelected ?? ContentView.nullUuid
+            cachedAccounts = Array(launcherData.accountManager.accounts.values).map { AdaptedAccount(from: $0) }
         }
         .onReceive(launcherData.accountManager.$currentSelected) {
-            self.selectedAccount = $0 ?? ContentView.nullUuid
+            selectedAccount = $0 ?? ContentView.nullUuid
         }
-        .onChange(of: self.selectedAccount) { newValue in
+        .onChange(of: selectedAccount) { newValue in
             launcherData.accountManager.currentSelected = newValue == ContentView.nullUuid ? nil : newValue
             DispatchQueue.global(qos: .utility).async {
                 launcherData.accountManager.saveThrow()
             }
         }
         .onReceive(launcherData.accountManager.$accounts) {
-            self.cachedAccounts = Array($0.values).map({ AdaptedAccount(from: $0)})
+            cachedAccounts = Array($0.values).map {
+                AdaptedAccount(from: $0)
+            }
         }
         
         Button {
@@ -250,7 +253,7 @@ extension NavigationView {
     @ViewBuilder
     func bindInstanceFocusValue(_ i: Instance?) -> some View {
         if #available(macOS 13, *) {
-            self.focusedValue(\.selectedInstance, i)
+            focusedValue(\.selectedInstance, i)
         } else {
             self
         }

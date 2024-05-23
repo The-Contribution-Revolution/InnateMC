@@ -8,22 +8,20 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import SwiftUI
 
 struct OfflineAccount: MinecraftAccount {
-    var type: MinecraftAccountType = .offline
     var username: String
     var id: UUID
-    var xuid: String {
-        "0"
-    }
+    var type: MinecraftAccountType = .offline
+    var xuid = "0"
     
     init(username: String, uuid: UUID) {
         self.username = username
@@ -31,10 +29,10 @@ struct OfflineAccount: MinecraftAccount {
     }
     
     public static func createFromUsername(_ username: String) -> OfflineAccount {
-        return .init(username: username, uuid: UUID())
+        .init(username: username, uuid: UUID())
     }
     
     func createAccessToken() async throws -> String {
-        return "offline"
+        "offline"
     }
 }

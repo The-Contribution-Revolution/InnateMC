@@ -8,38 +8,40 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import SwiftUI
 
 struct InstanceDeleteSheet: View {
-    @EnvironmentObject var launcherData: LauncherData
+    @EnvironmentObject private var launcherData: LauncherData
     @Binding var showDeleteSheet: Bool
     @Binding var selectedInstance: Instance?
+    
     var instanceToDelete: Instance
     
     var body: some View {
         VStack(alignment: .center) {
             Text(i18n("are_you_sure_delete_instance"))
+            
             HStack {
                 Button(i18n("delete")) {
-                    if let index = launcherData.instances.firstIndex(of: self.instanceToDelete) {
-                        if let selectedInstance = self.selectedInstance {
-                            if selectedInstance == instanceToDelete {
-                                self.selectedInstance = nil
-                            }
+                    if let index = launcherData.instances.firstIndex(of: instanceToDelete) {
+                        if let selectedInstance, selectedInstance == instanceToDelete {
+                            self.selectedInstance = nil
                         }
+                        
                         let instance = launcherData.instances.remove(at: index)
                         instance.delete()
                     }
                     showDeleteSheet = false
                 }
                 .padding()
+                
                 Button(i18n("cancel")) {
                     showDeleteSheet = false
                 }

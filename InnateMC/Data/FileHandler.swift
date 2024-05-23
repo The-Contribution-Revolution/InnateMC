@@ -8,11 +8,11 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import Foundation
@@ -21,41 +21,46 @@ public class FileHandler {
     public static let instancesFolder = try! getOrCreateFolder("Instances")
     public static let assetsFolder = try! getOrCreateFolder("Assets")
     public static let librariesFolder = try! getOrCreateFolder("Libraries")
-    public static let javaFolder: URL = try! getOrCreateFolder("Java")
-
+    public static let javaFolder = try! getOrCreateFolder("Java")
+    
     public static func getOrCreateFolder() throws -> URL {
         let fileManager = FileManager.default
         let appSupport = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
         let folderUrl = appSupport.appendingPathComponent("InnateMC")
+        
         if !fileManager.fileExists(atPath: folderUrl.path) {
             logger.info("Creating directory in user's application support folder")
             try fileManager.createDirectory(at: folderUrl, withIntermediateDirectories: true, attributes: nil)
         }
+        
         return folderUrl
     }
-
+    
     public static func getOrCreateFolder(_ name: String) throws -> URL {
         let fileManager = FileManager.default
         let folderUrl = try getOrCreateFolder().appendingPathComponent(name)
+        
         if !fileManager.fileExists(atPath: folderUrl.path) {
             logger.info("Creating subdirectory \(name) in InnateMC")
             try fileManager.createDirectory(at: folderUrl, withIntermediateDirectories: true, attributes: nil)
         }
+        
         return folderUrl
     }
     
     public static func getData(_ url: URL) throws -> Data? {
-        if !FileManager.default.fileExists(atPath: url.path) {
-            return nil
-        }
-        return try Data(contentsOf: url)
-    }
-
-    public static func saveData(_ url: URL, _ data: Data) throws {
-        if !FileManager.default.fileExists(atPath: url.path) {
-            FileManager.default.createFile(atPath: url.path, contents: data)
+        if FileManager.default.fileExists(atPath: url.path) {
+            try Data(contentsOf: url)
         } else {
+            nil
+        }
+    }
+    
+    public static func saveData(_ url: URL, _ data: Data) throws {
+        if FileManager.default.fileExists(atPath: url.path) {
             try data.write(to: url)
+        } else {
+            FileManager.default.createFile(atPath: url.path, contents: data)
         }
     }
 }

@@ -8,11 +8,11 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import Foundation
@@ -23,7 +23,7 @@ struct ErrorTrackerEntry: Hashable, Equatable {
     var error: Error?
     var timestamp: Double
     var counter: Int
-    static var counterGlobal: Int = 0
+    static var counterGlobal = 0
     
     init(type: TrackedErrorType, description: String, error: Error?, timestamp: Double) {
         self.type = type
@@ -31,7 +31,7 @@ struct ErrorTrackerEntry: Hashable, Equatable {
         self.error = error
         self.timestamp = timestamp
         Self.counterGlobal += 1
-        self.counter = Self.counterGlobal
+        counter = Self.counterGlobal
     }
     
     init(type: TrackedErrorType, description: String, timestamp: Double) {
@@ -39,7 +39,7 @@ struct ErrorTrackerEntry: Hashable, Equatable {
     }
     
     static func == (lhs: ErrorTrackerEntry, rhs: ErrorTrackerEntry) -> Bool {
-        return lhs.timestamp == rhs.timestamp
+        lhs.timestamp == rhs.timestamp
     }
     
     func hash(into hasher: inout Hasher) {

@@ -8,11 +8,11 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import SwiftUI
@@ -22,20 +22,24 @@ struct InstanceLogoView: View {
     
     var body: some View {
         ZStack {
-            if instance.logo.logoType == .file {
-                AsyncImage(url: instance.getLogoPath(), content: {
+            switch instance.logo.logoType {
+            case .file:
+                AsyncImage(url: instance.getLogoPath()) {
                     $0.resizable().scaledToFit()
-                }) {
+                } placeholder: {
                     Image(systemName: "tray.circle").resizable()
                 }
-            } else if instance.logo.logoType == .symbol {
+                
+            case .symbol:
                 Image(systemName: instance.logo.string)
                     .resizable()
                     .scaledToFit()
-            } else if instance.logo.logoType == .builtin {
+                
+            case .builtin:
                 Image(instance.logo.string)
                     .resizable()
                     .scaledToFit()
+                
             }
         }
     }

@@ -8,50 +8,61 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 enum MicrosoftAuthError: Error {
-    case noError
-    case microsoftCouldNotConnect
-    case microsoftInvalidResponse
-    case xboxCouldNotConnect
-    case xboxInvalidResponse
-    case xstsCouldNotConnect
-    case xstsInvalidResponse
-    case minecraftCouldNotConnect
-    case minecraftInvalidResponse
-    case profileCouldNotConnect
-    case profileInvalidResponse
+    case noError,
+         microsoftCouldNotConnect,
+         microsoftInvalidResponse,
+         xboxCouldNotConnect,
+         xboxInvalidResponse,
+         xstsCouldNotConnect,
+         xstsInvalidResponse,
+         minecraftCouldNotConnect,
+         minecraftInvalidResponse,
+         profileCouldNotConnect,
+         profileInvalidResponse
     
     var localizedDescription: String {
         switch (self) {
         case .noError:
-            return "No error!"
+            "No error!"
+            
         case .microsoftCouldNotConnect:
-            return "Could not connect to Microsoft authentication server"
+            "Could not connect to Microsoft authentication server"
+            
         case .microsoftInvalidResponse:
-            return "Invalid response received from Microsoft authentication server"
+            "Invalid response received from Microsoft authentication server"
+            
         case .xboxCouldNotConnect:
-            return "Could not connect to Xbox Live authentication server"
+            "Could not connect to Xbox Live authentication server"
+            
         case .xboxInvalidResponse:
-            return "Invalid response received from Xbox Live authentication server"
+            "Invalid response received from Xbox Live authentication server"
+            
         case .xstsCouldNotConnect:
-            return "Could not connect to Xbox XSTS authentication server"
+            "Could not connect to Xbox XSTS authentication server"
+            
         case .xstsInvalidResponse:
-            return "Invalid response received from Xbox XSTS authentication server"
+            "Invalid response received from Xbox XSTS authentication server"
+            
         case .minecraftCouldNotConnect:
-            return "Could not connect to Minecraft authentication server"
+            "Could not connect to Minecraft authentication server"
+            
         case .minecraftInvalidResponse:
-            return "Invalid response received from Minecraft authentication server"
+            "Invalid response received from Minecraft authentication server"
+            
         case .profileCouldNotConnect:
-            return "Could not connect to Minecraft profile server"
+            "Could not connect to Minecraft profile server"
+            
         case .profileInvalidResponse:
-            return "Invalid response received from Minecraft profile server"
+            "Invalid response received from Minecraft profile server"
+            
         }
     }
 }

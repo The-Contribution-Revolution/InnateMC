@@ -8,32 +8,34 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import SwiftUI
 
 struct InstanceInterativeLogoView: View {
-    @EnvironmentObject var launcherData: LauncherData
+    @EnvironmentObject private var launcherData: LauncherData
     @StateObject var instance: Instance
+    
     @Binding var showLogoSheet: Bool
     @Binding var logoHovered: Bool
     
     var body: some View {
         let size = launcherData.globalPreferences.ui.compactInstanceLogo ? 64.0 : 128
+        
         InstanceLogoView(instance: instance)
             .frame(width: size, height: size)
             .padding(.all, 20)
             .opacity(logoHovered ? 0.75 : 1)
-            .onHover(perform: { value in
+            .onHover { value in
                 withAnimation {
                     logoHovered = value
                 }
-            })
+            }
             .onTapGesture {
                 showLogoSheet = true
             }

@@ -8,11 +8,11 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import Foundation
@@ -27,10 +27,10 @@ public struct MicrosoftAccessToken: Codable {
         self.expiry = expiry
         self.refreshToken = refreshToken
     }
-
+    
     public init(token: String, expiresIn: Int, refreshToken: String) {
         self.token = token
-        self.expiry = Int(CFAbsoluteTimeGetCurrent()) + expiresIn
+        expiry = Int(CFAbsoluteTimeGetCurrent()) + expiresIn
         self.refreshToken = refreshToken
     }
     
@@ -43,7 +43,7 @@ public struct MicrosoftAccessToken: Codable {
     }
     
     public func hasExpired() -> Bool {
-        return Int(CFAbsoluteTimeGetCurrent()) > expiry - 5
+        Int(CFAbsoluteTimeGetCurrent()) > expiry - 5
     }
 }
 
@@ -53,6 +53,6 @@ struct RawMicrosoftAccessToken: Codable {
     public var expires_in: Int
     
     public func convert() -> MicrosoftAccessToken {
-        return MicrosoftAccessToken(token: access_token, expiresIn: expires_in, refreshToken: refresh_token)
+        MicrosoftAccessToken(token: access_token, expiresIn: expires_in, refreshToken: refresh_token)
     }
 }

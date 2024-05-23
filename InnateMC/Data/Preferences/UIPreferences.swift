@@ -8,16 +8,16 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import Foundation
 
-public class UiPreferences: Codable, ObservableObject {
-    @Published public var compactList: Bool = false
-    @Published public var compactInstanceLogo: Bool = false
+public class UiPreferences: Codable {
+    @Published public var compactList = false
+    @Published public var compactInstanceLogo = false
 }

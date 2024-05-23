@@ -8,58 +8,59 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import SwiftUI
 
 struct InstanceView: View {
     @StateObject var instance: Instance
-    @State var disabled: Bool = false
-    @EnvironmentObject var launcherData: LauncherData
-    @State var starHovered: Bool = false
-    @State var logoHovered: Bool = false
-    @State var showLogoSheet: Bool = false
-    @StateObject var editingViewModel = InstanceEditingViewModel()
-    @State var showNoNamePopover: Bool = false
-    @State var showDuplicatePopover: Bool = false
-    @State var showErrorSheet: Bool = false
-    @State var showPreLaunchSheet: Bool = false
-    @State var showChooseAccountSheet: Bool = false
-    @State var launchError: LaunchError? = nil
-    @State var downloadSession: URLSession? = nil
-    @State var downloadMessage: LocalizedStringKey = i18n("downloading_libs")
-    @State var downloadProgress: TaskProgress = TaskProgress(current: 0, total: 1)
-    @State var progress: Float = 0
-    @State var launchedInstanceProcess: InstanceProcess? = nil
-    @State var indeterminateProgress: Bool = false
+    @StateObject private var editingViewModel = InstanceEditingViewModel()
+    @EnvironmentObject private var launcherData: LauncherData
+    
+    @State private var disabled = false
+    @State private var starHovered = false
+    @State private var logoHovered = false
+    @State private var showLogoSheet = false
+    @State private var showNoNamePopover = false
+    @State private var showDuplicatePopover = false
+    @State private var showErrorSheet = false
+    @State private var showPreLaunchSheet = false
+    @State private var showChooseAccountSheet = false
+    @State private var launchError: LaunchError? = nil
+    @State private var downloadSession: URLSession? = nil
+    @State private var downloadMessage = i18n("downloading_libs")
+    @State private var downloadProgress = TaskProgress(current: 0, total: 1)
+    @State private var progress: Float = 0
+    @State private var launchedInstanceProcess: InstanceProcess? = nil
+    @State private var indeterminateProgress = false
     
     var body: some View {
         ZStack {
             VStack {
                 HStack {
-                    InstanceInterativeLogoView(instance: self.instance, showLogoSheet: $showLogoSheet, logoHovered: $logoHovered)
+                    InstanceInterativeLogoView(instance: instance, showLogoSheet: $showLogoSheet, logoHovered: $logoHovered)
                     VStack {
                         HStack {
-                            InstanceTitleView(editingViewModel: self.editingViewModel, instance: self.instance, showNoNamePopover: $showNoNamePopover, showDuplicatePopover: $showDuplicatePopover, starHovered: $starHovered)
+                            InstanceTitleView(editingViewModel: editingViewModel, instance: instance, showNoNamePopover: $showNoNamePopover, showDuplicatePopover: $showDuplicatePopover, starHovered: $starHovered)
                             Spacer()
                         }
                         HStack {
-                            InstanceSynopsisView(editingViewModel: self.editingViewModel, instance: self.instance)
+                            InstanceSynopsisView(editingViewModel: editingViewModel, instance: instance)
                             Spacer()
                         }
                         .padding(.top, 10)
                     }
                 }
                 .sheet(isPresented: $showLogoSheet) {
-                    InstanceLogoSheet(instance: self.instance, showLogoSheet: $showLogoSheet)
+                    InstanceLogoSheet(instance: instance, showLogoSheet: $showLogoSheet)
                 }
                 HStack {
-                    InstanceNotesView(editingViewModel: self.editingViewModel, instance: self.instance)
+                    InstanceNotesView(editingViewModel: editingViewModel, instance: instance)
                     Spacer()
                 }
                 Spacer()
@@ -88,7 +89,7 @@ struct InstanceView: View {
             }
             .padding(.all, 6)
             .onAppear {
-                launcherData.launchRequestedInstances.removeAll(where: { $0 == self.instance })
+                launcherData.launchRequestedInstances.removeAll(where: { $0 == instance })
                 launchedInstanceProcess = launcherData.launchedInstances[instance]
                 instance.loadScreenshotsAsync()
             }
@@ -103,27 +104,28 @@ struct InstanceView: View {
                 launchedInstanceProcess = launcherData.launchedInstances[instance]
             }
             .onReceive(launcherData.$launchRequestedInstances) { value in
-                if value.contains(where: { $0 == self.instance}) {
+                if value.contains(where: { $0 == instance}) {
                     if launcherData.accountManager.currentSelected != nil {
                         showPreLaunchSheet = true
                         downloadProgress.cancelled = false
                     } else {
                         showChooseAccountSheet = true
                     }
-                    launcherData.launchRequestedInstances.removeAll(where: { $0 == self.instance })
+                    
+                    launcherData.launchRequestedInstances.removeAll(where: { $0 == instance })
                 }
             }
             .onReceive(launcherData.$editModeInstances) { value in
-                if value.contains(where: { $0 == self.instance}) {
-                    self.editingViewModel.start(from: self.instance)
-                } else if self.editingViewModel.inEditMode {
-                    self.editingViewModel.commit(to: self.instance, showNoNamePopover: $showNoNamePopover, showDuplicateNamePopover: $showDuplicatePopover, data: self.launcherData)
+                if value.contains(where: { $0 == instance}) {
+                    editingViewModel.start(from: instance)
+                } else if editingViewModel.inEditMode {
+                    editingViewModel.commit(to: instance, showNoNamePopover: $showNoNamePopover, showDuplicateNamePopover: $showDuplicatePopover, data: launcherData)
                 }
             }
             .onReceive(launcherData.$killRequestedInstances) { value in
-                if value.contains(where: { $0 == self.instance})  {
+                if value.contains(where: { $0 == instance })  {
                     kill(launchedInstanceProcess!.process.processIdentifier, SIGKILL)
-                    launcherData.killRequestedInstances.removeAll(where: { $0 == self.instance })
+                    launcherData.killRequestedInstances.removeAll(where: { $0 == instance })
                 }
             }
         }
@@ -134,51 +136,59 @@ struct InstanceView: View {
         VStack {
             HStack {
                 Spacer()
+                
                 Text(downloadMessage)
+                
                 Spacer()
             }
             .padding()
+            
             if indeterminateProgress {
                 ProgressView()
                     .progressViewStyle(.linear)
             } else {
                 ProgressView(value: progress)
             }
+            
             Button(i18n("abort")) {
                 logger.info("Aborting instance launch")
-                self.downloadSession?.invalidateAndCancel()
+                downloadSession?.invalidateAndCancel()
                 showPreLaunchSheet = false
-                self.downloadProgress.cancelled = true
-                self.downloadProgress = TaskProgress(current: 0, total: 1)
+                downloadProgress.cancelled = true
+                downloadProgress = TaskProgress(current: 0, total: 1)
             }
-            .onReceive(downloadProgress.$current, perform: {
+            .onReceive(downloadProgress.$current) {
                 progress = Float($0) / Float(downloadProgress.total)
-            })
+            }
             .padding()
         }
-        .onAppear(perform: {
+        .onAppear {
             onPrelaunchSheetAppear()
-        })
+        }
         .padding(.all, 10)
     }
     
     func onPrelaunchSheetAppear() {
-        logger.info("Preparing to launch \(self.instance.name)")
-        self.indeterminateProgress = false
-        self.downloadProgress.cancelled = false
+        logger.info("Preparing to launch \(instance.name)")
+        indeterminateProgress = false
+        downloadProgress.cancelled = false
         downloadMessage = i18n("downloading_libs")
         logger.info("Downloading libraries")
+        
         downloadSession = instance.downloadLibs(progress: downloadProgress) {
             downloadMessage = i18n("downloading_assets")
             logger.info("Downloading assets")
+            
             downloadSession = instance.downloadAssets(progress: downloadProgress) {
                 downloadMessage = i18n("extracting_natives")
                 logger.info("Extracting natives")
+                
                 downloadProgress.callback = {
                     if !downloadProgress.cancelled {
-                        self.indeterminateProgress = true
+                        indeterminateProgress = true
                         downloadMessage = i18n("authenticating_with_minecraft")
                         logger.info("Fetching access token")
+                        
                         Task(priority: .high) {
                             do {
                                 let accessToken = try await launcherData.accountManager.selectedAccount.createAccessToken()
@@ -211,22 +221,27 @@ struct InstanceView: View {
     
     @MainActor
     func onPrelaunchError(_ error: LaunchError) {
-        if (self.showErrorSheet) {
+        if showErrorSheet {
             logger.debug("Suppressed error during prelaunch: \(error.localizedDescription)")
+            
             if let sup = error.cause {
                 logger.debug("Cause: \(sup.localizedDescription)")
             }
+            
             return
         }
+        
         logger.error("Caught error during prelaunch", error: error)
         ErrorTracker.instance.error(error: error, description: "Caught error during prelaunch")
+        
         if let cause = error.cause {
             logger.error("Cause", error: cause)
             ErrorTracker.instance.error(error: error, description: "Causative error during prelaunch")
         }
-        self.showPreLaunchSheet = false
-        self.showErrorSheet = true
-        self.downloadProgress.cancelled = true
-        self.launchError = error
+        
+        showPreLaunchSheet = false
+        showErrorSheet = true
+        downloadProgress.cancelled = true
+        launchError = error
     }
 }

@@ -8,21 +8,21 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import Foundation
 
 public enum LaunchError: Error {
-    case errorDownloading(error: Error?)
-    case invalidShaHash(error: Error?)
-    case unknownError(error: Error?)
-    case accessTokenFetchError(error: Error?)
-    case errorCreatingFile(error: Error?)
+    case errorDownloading(error: Error?),
+         invalidShaHash(error: Error?),
+         unknownError(error: Error?),
+         accessTokenFetchError(error: Error?),
+         errorCreatingFile(error: Error?)
     
     var cause: Error? {
         switch(self) {
@@ -38,15 +38,19 @@ public enum LaunchError: Error {
     var localizedDescription: String {
         switch(self) {
         case .errorDownloading(_):
-            return NSLocalizedString("error_downloading", comment: "no u")
+            NSLocalizedString("error_downloading", comment: "no u")
+            
         case .invalidShaHash(_):
-            return NSLocalizedString("invalid_sha_hash_error", comment: "no u")
+            NSLocalizedString("invalid_sha_hash_error", comment: "no u")
+            
         case .unknownError(_):
-            return NSLocalizedString("error_unknown_download", comment: "no u")
+            NSLocalizedString("error_unknown_download", comment: "no u")
+            
         case .accessTokenFetchError(_):
-            return NSLocalizedString("error_fetching_access_token", comment: "no u")
+            NSLocalizedString("error_fetching_access_token", comment: "no u")
+            
         case .errorCreatingFile(_):
-            return NSLocalizedString("error_creating_file", comment: "no u")
+            NSLocalizedString("error_creating_file", comment: "no u")
         }
     }
 }

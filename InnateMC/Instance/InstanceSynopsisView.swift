@@ -8,11 +8,11 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import SwiftUI
@@ -23,14 +23,14 @@ struct InstanceSynopsisView: View {
     
     var body: some View {
         if editingViewModel.inEditMode {
-            TextField("", text: $editingViewModel.synopsis, prompt: Text(self.instance.debugString))
+            TextField("", text: $editingViewModel.synopsis, prompt: Text(instance.debugString))
                 .fixedSize(horizontal: true, vertical: false)
                 .font(.caption)
                 .padding(.vertical, 6)
                 .foregroundColor(.gray)
                 .frame(height: 10)
         } else {
-            Text(self.instance.synopsisOrVersion)
+            Text(instance.synopsisOrVersion)
                 .font(.caption)
                 .padding(.vertical, 6)
                 .foregroundColor(.gray)

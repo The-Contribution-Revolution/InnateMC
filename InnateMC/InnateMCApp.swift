@@ -8,11 +8,11 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import SwiftUI
@@ -21,8 +21,8 @@ import os
 @main
 struct InnateMCApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    @StateObject private var launcherData: LauncherData = .init()
-
+    @StateObject private var launcherData = LauncherData()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -30,7 +30,9 @@ struct InnateMCApp: App {
         }
         .commands {
             InstanceCommands()
+            
             SidebarCommands()
+            
             DeveloperModeCommands()
         }
         
@@ -45,7 +47,7 @@ struct InnateMCApp: App {
 public let logger = Logger(subsystem: "global", category: "InnateMC")
 
 func i18n(_ str: String) -> LocalizedStringKey {
-    return LocalizedStringKey(str)
+    LocalizedStringKey(str)
 }
 
 public extension Logger {

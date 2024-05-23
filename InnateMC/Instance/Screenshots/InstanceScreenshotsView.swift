@@ -8,20 +8,24 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import SwiftUI
 
 struct InstanceScreenshotsView: View {
     @StateObject var instance: Instance
-    @FocusState var selectedItem: Screenshot?
+    @FocusState private var selectedItem: Screenshot?
     
-    let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
+    private let columns = [
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ]
     
     var body: some View {
         VStack {
@@ -32,7 +36,7 @@ struct InstanceScreenshotsView: View {
                             ForEach(instance.screenshots, id: \.self) { screenshot in
                                 HStack {
                                     VStack {
-                                        AsyncImage(url: screenshot.path, scale: 1) {
+                                        AsyncImage(url: screenshot.path) {
                                             $0.resizable().scaledToFit()
                                         } placeholder: {
                                             Image(systemName: "bolt")
@@ -48,19 +52,21 @@ struct InstanceScreenshotsView: View {
                                     .onCopyCommand {
                                         return [NSItemProvider(contentsOf: screenshot.path)!]
                                     }
-                                    .highPriorityGesture(TapGesture()
-                                        .onEnded({ i in
-                                            withAnimation(Animation.linear(duration: 0.1)) {
-                                                selectedItem = screenshot
+                                    .highPriorityGesture(
+                                        TapGesture()
+                                            .onEnded { i in
+                                                withAnimation(.linear(duration: 0.1)) {
+                                                    selectedItem = screenshot
+                                                }
                                             }
-                                        }))
+                                    )
                                 }
                             }
                         }
                     } else {
                         Text(i18n("no_screenshots"))
                             .font(.largeTitle)
-                            .foregroundColor(Color.gray)
+                            .foregroundColor(.gray)
                             .multilineTextAlignment(.center)
                             .frame(maxWidth: .infinity)
                     }
@@ -69,8 +75,11 @@ struct InstanceScreenshotsView: View {
                 .padding(.vertical, 8)
             }
             .cornerRadius(8)
-            .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.secondary, lineWidth: 1))
-            .background(Color(NSColor.textBackgroundColor))
+            .overlay {
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(.secondary, lineWidth: 1)
+            }
+            .background(Color(.textBackgroundColor))
             .padding(.all, 7)
             
             HStack {

@@ -8,26 +8,27 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import SwiftUI
 
 struct AddOfflineAccountView: View {
-    @State var username = ""
-    @State var showBlankPopover = false
     @Binding var showSheet: Bool
     @State var onCommit: (String) -> Void
+    
+    @State private var username = ""
+    @State private var showBlankPopover = false
     
     var body: some View {
         VStack {
             Form {
                 TextField(i18n("username"), text: $username)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .textFieldStyle(.roundedBorder)
                     .popover(isPresented: $showBlankPopover, arrowEdge: .bottom) {
                         Text(i18n("enter_a_username"))
                             .padding()
@@ -35,10 +36,10 @@ struct AddOfflineAccountView: View {
                     .padding()
             }
             HStack {
-                if !isValidMinecraftUsername(self.username) {
+                if !isValidMinecraftUsername(username) {
                     Image(systemName: "exclamationmark.triangle.fill")
-                            .foregroundColor(.yellow)
-                        Text(i18n("invalid_username"))
+                        .foregroundColor(.yellow)
+                    Text(i18n("invalid_username"))
                 }
                 Spacer()
                 Button(i18n("cancel")) {
@@ -49,7 +50,7 @@ struct AddOfflineAccountView: View {
                     if username.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                         showBlankPopover = true
                     } else {
-                        onCommit(self.username)
+                        onCommit(username)
                         showSheet = false
                     }
                 }

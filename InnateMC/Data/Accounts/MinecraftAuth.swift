@@ -8,11 +8,11 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 struct MinecraftAuth: Codable {
@@ -27,6 +27,7 @@ struct MinecraftAuth: Codable {
             logger.fault("XSTS auth response did not have a user hash")
             fatalError("Invalid XSTS auth response.")
         }
-        self.identityToken = "XBL3.0 x=\(userHash);\(xboxAuthResponse.token)"
+        
+        identityToken = "XBL3.0 x=\(userHash);\(xboxAuthResponse.token)"
     }
 }

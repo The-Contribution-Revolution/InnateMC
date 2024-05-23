@@ -8,11 +8,11 @@
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/
+// along with this program. If not, see http://www.gnu.org/licenses
 //
 
 import Foundation
@@ -21,19 +21,19 @@ public struct Http {
     private static let session = URLSession(configuration: .default)
     
     public static func `get`(_ url: String) -> RequestBuilder {
-        return .init(url: URL(string: url)!, method: .get)
+        .init(url: URL(string: url)!, method: .get)
     }
     
     public static func post(_ url: String) -> RequestBuilder {
-        return .init(url: URL(string: url)!, method: .post)
+        .init(url: URL(string: url)!, method: .post)
     }
     
     public static func `get`(url: URL) -> RequestBuilder {
-        return .init(url: url, method: .get)
+        .init(url: url, method: .get)
     }
     
     public static func post(url: URL) -> RequestBuilder {
-        return .init(url: url, method: .post)
+        .init(url: url, method: .post)
     }
     
     public struct RequestBuilder {
