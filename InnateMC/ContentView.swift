@@ -39,7 +39,7 @@ struct ContentView: View {
                 TextField(i18n("search"), text: $searchTerm)
                     .padding(.trailing, 8)
                     .padding(.leading, 10)
-                    .padding([.top, .bottom], 9)
+                    .padding(.vertical, 9)
                     .textFieldStyle(.roundedBorder)
                 
                 List(selection: $selectedInstance) {

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 63;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -758,7 +758,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1320;
-				LastUpgradeCheck = 1420;
+				LastUpgradeCheck = 1630;
 				TargetAttributes = {
 					649C8DD1297D5ABE000352F2 = {
 						CreatedOnToolsVersion = 13.2.1;
@@ -772,7 +772,6 @@
 				};
 			};
 			buildConfigurationList = 64C334D02922523500BB8570 /* Build configuration list for PBXProject "InnateMC" */;
-			compatibilityVersion = "Xcode 15.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -792,6 +791,7 @@
 				64FC5B272A5805FA009D0050 /* XCRemoteSwiftPackageReference "Zip" */,
 				64515B712A78DF34000D17A8 /* XCRemoteSwiftPackageReference "FileWatcher" */,
 			);
+			preferredProjectObjectVersion = 77;
 			productRefGroup = 64C334D62922523600BB8570 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1067,6 +1067,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1130,6 +1131,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
