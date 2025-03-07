@@ -59,7 +59,7 @@ public struct SymbolPicker: View {
     private var searchableSymbolGrid: some View {
         VStack(spacing: 0) {
             HStack {
-                TextField(i18n("search"), text: $searchText)
+                TextField("search", text: $searchText)
                     .textFieldStyle(.plain)
                     .font(.system(size: 18))
                     .disableAutocorrection(true)

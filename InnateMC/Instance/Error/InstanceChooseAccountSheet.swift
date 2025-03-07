@@ -25,11 +25,12 @@ struct InstanceChooseAccountSheet: View {
             VStack {
                 HStack {
                     Spacer()
-                    Text(i18n("no_account_selected"))
+                    Text("no_account_selected")
                     Spacer()
                 }
                 .padding()
-                Button(i18n("close")) {
+                
+                Button("close") {
                     showChooseAccountSheet = false
                 }
                 .keyboardShortcut(.cancelAction)

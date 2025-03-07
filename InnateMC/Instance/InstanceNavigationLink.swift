@@ -83,20 +83,20 @@ struct InstanceNavigationLink: View {
         }
         .contextMenu {
             if instance.isStarred {
-                Button(i18n("unstar")) {
+                Button("unstar") {
                     withAnimation {
                         instance.isStarred = false
                     }
                 }
             } else {
-                Button(i18n("star")) {
+                Button("star") {
                     withAnimation {
                         instance.isStarred = true
                     }
                 }
             }
             
-            Button(i18n("delete")) {
+            Button("delete") {
                 showDeleteSheet = true
             }
         }

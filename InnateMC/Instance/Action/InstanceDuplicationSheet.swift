@@ -29,13 +29,13 @@ struct InstanceDuplicationSheet: View {
         VStack {
             // TODO: allow selecting what and what not to duplicate
             Form {
-                TextField(i18n("name"), text: $newName)
+                TextField("name", text: $newName)
                     .textFieldStyle(.roundedBorder)
             }
             .padding()
             
             HStack {
-                Button(i18n("duplicate")) {
+                Button("duplicate") {
                     let newInstance = Instance(
                         name: newName,
                         assetIndex: instance.assetIndex,
@@ -64,7 +64,7 @@ struct InstanceDuplicationSheet: View {
                 }
                 .padding()
                 
-                Button(i18n("cancel")) {
+                Button("cancel") {
                     showDuplicationSheet = false
                 }
                 .padding()

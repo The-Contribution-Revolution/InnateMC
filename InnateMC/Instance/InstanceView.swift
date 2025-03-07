@@ -33,7 +33,7 @@ struct InstanceView: View {
     @State private var showChooseAccountSheet = false
     @State private var launchError: LaunchError? = nil
     @State private var downloadSession: URLSession? = nil
-    @State private var downloadMessage = i18n("downloading_libs")
+    @State private var downloadMessage: LocalizedStringKey = "downloading_libs"
     @State private var downloadProgress = TaskProgress(current: 0, total: 1)
     @State private var progress: Float = 0
     @State private var launchedInstanceProcess: InstanceProcess? = nil
@@ -67,23 +67,23 @@ struct InstanceView: View {
                 TabView {
                     InstanceConsoleView(instance: instance, launchedInstanceProcess: $launchedInstanceProcess)
                         .tabItem {
-                            Label(i18n("console"), systemImage: "bolt")
+                            Label("console", systemImage: "bolt")
                         }
                     InstanceModsView(instance: instance)
                         .tabItem {
-                            Label(i18n("mods"), systemImage: "plus.square.on.square")
+                            Label("mods", systemImage: "plus.square.on.square")
                         }
                     InstanceScreenshotsView(instance: instance)
                         .tabItem {
-                            Label(i18n("screenshots"), systemImage: "plus.square.on.square")
+                            Label("screenshots", systemImage: "plus.square.on.square")
                         }
                     InstanceWorldsView(instance: instance)
                         .tabItem {
-                            Label(i18n("worlds"), systemImage: "plus.square.on.square")
+                            Label("worlds", systemImage: "plus.square.on.square")
                         }
                     InstanceRuntimeView(instance: instance)
                         .tabItem {
-                            Label(i18n("runtime"), systemImage: "bolt")
+                            Label("runtime", systemImage: "bolt")
                         }
                 }.padding(.all, 4)
             }
@@ -150,7 +150,7 @@ struct InstanceView: View {
                 ProgressView(value: progress)
             }
             
-            Button(i18n("abort")) {
+            Button("abort") {
                 logger.info("Aborting instance launch")
                 downloadSession?.invalidateAndCancel()
                 showPreLaunchSheet = false
@@ -172,21 +172,21 @@ struct InstanceView: View {
         logger.info("Preparing to launch \(instance.name)")
         indeterminateProgress = false
         downloadProgress.cancelled = false
-        downloadMessage = i18n("downloading_libs")
+        downloadMessage = "downloading_libs"
         logger.info("Downloading libraries")
         
         downloadSession = instance.downloadLibs(progress: downloadProgress) {
-            downloadMessage = i18n("downloading_assets")
+            downloadMessage = "downloading_assets"
             logger.info("Downloading assets")
             
             downloadSession = instance.downloadAssets(progress: downloadProgress) {
-                downloadMessage = i18n("extracting_natives")
+                downloadMessage = "extracting_natives"
                 logger.info("Extracting natives")
                 
                 downloadProgress.callback = {
                     if !downloadProgress.cancelled {
                         indeterminateProgress = true
-                        downloadMessage = i18n("authenticating_with_minecraft")
+                        downloadMessage = "authenticating_with_minecraft"
                         logger.info("Fetching access token")
                         
                         Task(priority: .high) {

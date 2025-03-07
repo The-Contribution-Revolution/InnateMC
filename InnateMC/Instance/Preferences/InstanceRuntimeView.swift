@@ -27,10 +27,10 @@ struct InstanceRuntimeView: View {
     var body: some View {
         VStack {
             Form {
-                Toggle(i18n("Override default runtime settings"), isOn: $instance.preferences.runtime.valid)
+                Toggle("Override default runtime settings", isOn: $instance.preferences.runtime.valid)
                     .padding(.bottom, 5)
                 
-                Picker(i18n("java"), selection: $selectedJava) {
+                Picker("java", selection: $selectedJava) {
                     PickableJavaVersion(installation: .systemDefault)
                     
                     ForEach(launcherData.javaInstallations) {
@@ -40,11 +40,11 @@ struct InstanceRuntimeView: View {
                 .disabled(!valid)
                 
                 Group {
-                    TextField(i18n("default_min_mem"), value: $instance.preferences.runtime.minMemory, formatter: NumberFormatter())
+                    TextField("default_min_mem", value: $instance.preferences.runtime.minMemory, formatter: NumberFormatter())
                     
-                    TextField(i18n("default_max_mem"), value: $instance.preferences.runtime.maxMemory, formatter: NumberFormatter())
+                    TextField("default_max_mem", value: $instance.preferences.runtime.maxMemory, formatter: NumberFormatter())
                     
-                    TextField(i18n("default_java_args"), text: $instance.preferences.runtime.javaArgs)
+                    TextField("default_java_args", text: $instance.preferences.runtime.javaArgs)
                 }
                 .textFieldStyle(.roundedBorder)
                 .disabled(!valid)

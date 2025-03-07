@@ -41,7 +41,7 @@ struct LaunchErrorSheet: View {
                 }
                 .padding()
                 
-                Button(i18n("close")) {
+                Button("close") {
                     showErrorSheet = false
                 }
                 .keyboardShortcut(.cancelAction)

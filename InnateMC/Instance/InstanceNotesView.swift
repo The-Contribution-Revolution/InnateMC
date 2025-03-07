@@ -23,7 +23,7 @@ struct InstanceNotesView: View {
     
     var body: some View {
         if editingViewModel.inEditMode {
-            TextField("", text: $editingViewModel.notes, prompt: Text(i18n("notes")))
+            TextField("", text: $editingViewModel.notes, prompt: Text("notes"))
                 .font(.body)
                 .lineLimit(nil)
                 .multilineTextAlignment(.leading)

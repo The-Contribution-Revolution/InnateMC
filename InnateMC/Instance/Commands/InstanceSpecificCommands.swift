@@ -34,11 +34,11 @@ struct InstanceSpecificCommands: View {
             }
         } label: {
             if instanceStarred {
-                Text(i18n("unstar"))
+                Text("unstar")
                 
                 Image(systemName: "star.slash")
             } else {
-                Text(i18n("star"))
+                Text("star")
                 
                 Image(systemName: "star")
             }
@@ -78,7 +78,7 @@ struct InstanceSpecificCommands: View {
             Button {
                 LauncherData.instance.launchRequestedInstances.append(selectedInstance!)
             } label: {
-                Text(i18n("launch"))
+                Text("launch")
                 
                 Image(systemName: "paperplane")
             }
@@ -88,7 +88,7 @@ struct InstanceSpecificCommands: View {
             Button {
                 LauncherData.instance.killRequestedInstances.append(selectedInstance!)
             } label: {
-                Text(i18n("kill"))
+                Text("kill")
                 
                 Image(systemName: "square.fill")
             }
@@ -98,7 +98,7 @@ struct InstanceSpecificCommands: View {
             Button {
                 LauncherData.instance.editModeInstances.append(selectedInstance!)
             } label: {
-                Text(i18n("edit"))
+                Text("edit")
                 
                 Image(systemName: "pencil")
             }
@@ -108,7 +108,7 @@ struct InstanceSpecificCommands: View {
             Button {
                 LauncherData.instance.editModeInstances.removeAll(where: { $0 == selectedInstance! })
             } label: {
-                Text(i18n("save"))
+                Text("save")
                 
                 Image(systemName: "checkmark")
             }
@@ -118,7 +118,7 @@ struct InstanceSpecificCommands: View {
         Button {
             NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: selectedInstance!.getPath().path)
         } label: {
-            Text(i18n("open_in_finder"))
+            Text("open_in_finder")
             
             Image(systemName: "folder")
         }

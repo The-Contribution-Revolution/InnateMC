@@ -27,10 +27,10 @@ struct AddOfflineAccountView: View {
     var body: some View {
         VStack {
             Form {
-                TextField(i18n("username"), text: $username)
+                TextField("username", text: $username)
                     .textFieldStyle(.roundedBorder)
                     .popover(isPresented: $showBlankPopover, arrowEdge: .bottom) {
-                        Text(i18n("enter_a_username"))
+                        Text("enter_a_username")
                             .padding()
                     }
                     .padding()
@@ -39,14 +39,18 @@ struct AddOfflineAccountView: View {
                 if !isValidMinecraftUsername(username) {
                     Image(systemName: "exclamationmark.triangle.fill")
                         .foregroundColor(.yellow)
-                    Text(i18n("invalid_username"))
+                    
+                    Text("invalid_username")
                 }
+                
                 Spacer()
-                Button(i18n("cancel")) {
+                
+                Button("cancel") {
                     showSheet = false
                 }
                 .keyboardShortcut(.cancelAction)
-                Button(i18n("done")) {
+                
+                Button("done") {
                     if username.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                         showBlankPopover = true
                     } else {
@@ -74,6 +78,7 @@ struct AddOfflineAccountView: View {
         }
         
         let lowercaseUsername = username.lowercased()
+        
         if disallowedWords.contains(where: { lowercaseUsername.contains($0) }) {
             return false
         }

@@ -24,7 +24,7 @@ struct InstanceExportSheet: View {
     var body: some View {
         VStack(alignment: .center) {
             HStack {
-                Button(i18n("cancel")) {
+                Button("cancel") {
                     showExportSheet = false
                 }
                 .padding()

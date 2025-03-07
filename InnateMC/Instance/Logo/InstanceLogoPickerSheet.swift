@@ -27,14 +27,14 @@ struct InstanceLogoSheet: View {
             TabView {
                 ImageLogoPickerView(instance: instance)
                     .tabItem {
-                        Text(i18n("image"))
+                        Text("image")
                     }
                 SymbolLogoPickerView(instance: instance, logo: $instance.logo)
                     .tabItem {
-                        Text(i18n("symbol"))
+                        Text("symbol")
                     }
             }
-            Button(i18n("done")) {
+            Button("done") {
                 withAnimation {
                     showLogoSheet = false
                 }

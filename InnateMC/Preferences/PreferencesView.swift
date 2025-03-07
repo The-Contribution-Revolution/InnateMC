@@ -25,22 +25,22 @@ struct PreferencesView: View {
             RuntimePreferencesView()
                 .tag(SelectedPreferenceTab.runtime)
                 .tabItem {
-                    Label(i18n("runtime"), systemImage: "cup.and.saucer")
+                    Label("runtime", systemImage: "cup.and.saucer")
                 }
             AccountsPreferencesView()
                 .tag(SelectedPreferenceTab.accounts)
                 .tabItem {
-                    Label(i18n("accounts"), systemImage: "person.circle")
+                    Label("accounts", systemImage: "person.circle")
                 }
             UiPreferencesView()
                 .tag(SelectedPreferenceTab.ui)
                 .tabItem {
-                    Label(i18n("user_interface"), systemImage: "paintbrush.pointed")
+                    Label("user_interface", systemImage: "paintbrush.pointed")
                 }
             MiscPreferencesView()
                 .tag(SelectedPreferenceTab.misc)
                 .tabItem {
-                    Label(i18n("misc"), systemImage: "slider.horizontal.3")
+                    Label("misc", systemImage: "slider.horizontal.3")
                 }
         }
         .onAppear {

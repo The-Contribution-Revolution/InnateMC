@@ -24,15 +24,15 @@ struct NewInstanceView: View {
         TabView {
             NewVanillaInstanceView(showNewInstanceSheet: $showNewInstanceSheet)
                 .tabItem {
-                    Text(i18n("vanilla"))
+                    Text("vanilla")
                 }
             //            TodoView()
             //                .tabItem {
-            //                    Text(i18n("modrinth"))
+            //                    Text("modrinth")
             //                }
             //            TodoView()
             //                .tabItem {
-            //                    Text(i18n("import"))
+            //                    Text("import")
             //                }
         }
         .border(.red, width: 0)

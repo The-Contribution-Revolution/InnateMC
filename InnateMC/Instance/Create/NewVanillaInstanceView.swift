@@ -38,40 +38,42 @@ struct NewVanillaInstanceView: View {
         VStack {
             Spacer()
             Form {
-                TextField(i18n("name"), text: $name).frame(width: 400, height: nil, alignment: .leading).textFieldStyle(.roundedBorder)
+                TextField("name", text: $name).frame(width: 400, height: nil, alignment: .leading).textFieldStyle(.roundedBorder)
                     .popover(isPresented: $showNoNamePopover, arrowEdge: .bottom) {
-                        Text(i18n("enter_a_name"))
+                        Text("enter_a_name")
                             .padding()
                     }
                     .popover(isPresented: $showDuplicateNamePopover, arrowEdge: .bottom) {
                         // TODO: implement
-                        Text(i18n("enter_unique_name"))
+                        Text("enter_unique_name")
                             .padding()
                     }
-                Picker(i18n("version"), selection: $selectedVersion) {
+                Picker("version", selection: $selectedVersion) {
                     ForEach(versions) { ver in
                         Text(ver.version)
                             .tag(ver)
                     }
                 }
                 .popover(isPresented: $showInvalidVersionPopover, arrowEdge: .bottom) {
-                    Text(i18n("choose_valid_version"))
+                    Text("choose_valid_version")
                         .padding()
                 }
                 
-                Toggle(i18n("show_snapshots"), isOn: $showSnapshots)
-                Toggle(i18n("show_old_beta"), isOn: $showBeta)
-                Toggle(i18n("show_old_alpha"), isOn: $showAlpha)
+                Toggle("show_snapshots", isOn: $showSnapshots)
+                Toggle("show_old_beta", isOn: $showBeta)
+                Toggle("show_old_alpha", isOn: $showAlpha)
             }.padding()
             
             HStack {
                 Spacer()
                 
                 HStack{
-                    Button(i18n("cancel")) {
+                    Button("cancel") {
                         showNewInstanceSheet = false
-                    }.keyboardShortcut(.cancelAction)
-                    Button(i18n("done")) {
+                    }
+                    .keyboardShortcut(.cancelAction)
+                    
+                    Button("done") {
                         let trimmedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
                         
                         if trimmedName.isEmpty { // TODO: also check for spaces

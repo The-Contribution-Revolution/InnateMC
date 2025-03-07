@@ -36,7 +36,7 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack {
-                TextField(i18n("search"), text: $searchTerm)
+                TextField("search", text: $searchTerm)
                     .padding(.trailing, 8)
                     .padding(.leading, 10)
                     .padding(.vertical, 9)
@@ -80,9 +80,9 @@ struct ContentView: View {
                     }
                 }
             }
-            .navigationTitle(i18n("instances_title"))
+            .navigationTitle("instances_title")
             
-            Text(i18n("select_an_instance"))
+            Text("select_an_instance")
                 .font(.largeTitle)
                 .foregroundColor(.gray)
         }
@@ -110,7 +110,7 @@ struct ContentView: View {
         Toggle(isOn: $starredOnly) {
             Image(systemName: starredOnly ? "star.fill" : "star")
         }
-        .help(i18n("show_only_starred"))
+        .help("show_only_starred")
         
         Button {
             showNewInstanceSheet = true
@@ -133,7 +133,7 @@ struct ContentView: View {
             Image(systemName: "trash")
         }
         .disabled(selectedInstance == nil)
-        .help(i18n("delete"))
+        .help("delete")
         
         Button {
             showDuplicateInstanceSheet = true
@@ -141,7 +141,7 @@ struct ContentView: View {
             Image(systemName: "doc.on.doc")
         }
         .disabled(selectedInstance == nil)
-        .help(i18n("duplicate"))
+        .help("duplicate")
         
         Button {
             showExportInstanceSheet = true
@@ -149,7 +149,7 @@ struct ContentView: View {
             Image(systemName: "square.and.arrow.up")
         }
         .disabled(true)
-        .help(i18n("share_or_export"))
+        .help("share_or_export")
         
         Button {
             if launcherData.launchedInstances.contains(where: { $0.0 == selectedInstance! }) {
@@ -169,7 +169,7 @@ struct ContentView: View {
             }
         }
         .disabled(selectedInstance == nil)
-        .help(i18n("launch"))
+        .help("launch")
         
         Button {
             if launcherData.editModeInstances.contains(where: { $0 == selectedInstance! }) {
@@ -189,15 +189,15 @@ struct ContentView: View {
             }
         }
         .disabled(selectedInstance == nil)
-        .help(i18n("edit"))
+        .help("edit")
     }
     
     @ViewBuilder
     func createTrailingToolbar() -> some View {
         Spacer()
         
-        Picker(i18n("account"), selection: $selectedAccount) {
-            Text(i18n("no_account_selected"))
+        Picker("account", selection: $selectedAccount) {
+            Text("no_account_selected")
                 .tag(ContentView.nullUuid)
             
             ForEach(cachedAccounts) { value in

@@ -31,11 +31,11 @@ struct RuntimePreferencesView: View {
                     .foregroundColor(.secondary)
                 
                 Group {
-                    TextField(i18n("default_min_mem"), value: $launcherData.globalPreferences.runtime.minMemory, formatter: NumberFormatter())
+                    TextField("default_min_mem", value: $launcherData.globalPreferences.runtime.minMemory, formatter: NumberFormatter())
                     
-                    TextField(i18n("default_max_mem"), value: $launcherData.globalPreferences.runtime.maxMemory, formatter: NumberFormatter())
+                    TextField("default_max_mem", value: $launcherData.globalPreferences.runtime.maxMemory, formatter: NumberFormatter())
                     
-                    TextField(i18n("default_java_args"), text: $launcherData.globalPreferences.runtime.javaArgs)
+                    TextField("default_java_args", text: $launcherData.globalPreferences.runtime.javaArgs)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .textFieldStyle(.roundedBorder)
@@ -70,7 +70,7 @@ struct RuntimePreferencesView: View {
             }
             .padding([.leading, .trailing, .bottom])
             .padding(.top, 4)
-            Button(i18n("add_java_version")) {
+            Button("add_java_version") {
                 showFileImporter = true
             }
             .fileImporter(isPresented: $showFileImporter, allowedContentTypes: [.unixExecutable, .executable, .exe]) { result in

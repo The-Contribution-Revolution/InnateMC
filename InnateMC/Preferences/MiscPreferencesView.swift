@@ -22,7 +22,7 @@ struct MiscPreferencesView: View {
     
     var body: some View {
         Form {
-            Toggle(i18n("developer_mode"), isOn: $developerMode)
+            Toggle("developer_mode", isOn: $developerMode)
         }
         .padding(.all, 16)
     }

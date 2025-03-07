@@ -29,25 +29,25 @@ struct AccountsPreferencesView: View {
     var body: some View {
         VStack {
             Table(cachedAccountsOnly, selection: $selectedAccountIds) {
-                TableColumn(i18n("name"), value: \.username)
-                TableColumn(i18n("type"), value: \.type.rawValue)
+                TableColumn("name", value: \.username)
+                TableColumn("type", value: \.type.rawValue)
                     .width(max: 100)
             }
             
             HStack {
                 Spacer()
                 
-                Button(i18n("add_offline")) {
+                Button("add_offline") {
                     showAddOfflineSheet = true
                 }
                 .padding()
                 
-                Button(i18n("add_microsoft")) {
+                Button("add_microsoft") {
                     msAccountViewModel.prepareAndOpenSheet(launcherData: launcherData)
                 }
                 .padding()
                 
-                Button(i18n("delete_selected")) {
+                Button("delete_selected") {
                     for id in selectedAccountIds {
                         launcherData.accountManager.accounts.removeValue(forKey: id)
                     }

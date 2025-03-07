@@ -26,18 +26,18 @@ struct InstanceTitleView: View {
     
     var body: some View {
         if editingViewModel.inEditMode {
-            TextField(i18n("name"), text: $editingViewModel.name)
+            TextField("name", text: $editingViewModel.name)
                 .font(.largeTitle)
                 .labelsHidden()
                 .fixedSize(horizontal: true, vertical: false)
                 .frame(height: 20)
                 .popover(isPresented: $showNoNamePopover, arrowEdge: .trailing) {
-                    Text(i18n("enter_a_name"))
+                    Text("enter_a_name")
                         .padding()
                 }
                 .popover(isPresented: $showDuplicatePopover, arrowEdge: .trailing) {
                     // TODO: implement
-                    Text(i18n("enter_unique_name"))
+                    Text("enter_unique_name")
                         .padding()
                 }
             

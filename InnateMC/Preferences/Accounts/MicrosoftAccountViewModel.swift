@@ -19,7 +19,7 @@ import SwiftUI
 
 class MicrosoftAccountViewModel: ObservableObject {
     @Published var showMicrosoftAccountSheet = false
-    @Published var message = i18n("authenticating_with_microsoft")
+    @Published var message: LocalizedStringKey = "authenticating_with_microsoft"
     @Published var error: MicrosoftAuthError = .noError
     
     @MainActor func error(_ error: MicrosoftAuthError) {
@@ -36,22 +36,22 @@ class MicrosoftAccountViewModel: ObservableObject {
     @MainActor func closeSheet() {
         showMicrosoftAccountSheet = false
         error(.noError)
-        message = i18n("authenticating_with_microsoft")
+        message = "authenticating_with_microsoft"
     }
     
     @MainActor func setAuthWithXboxLive() {
-        message = i18n("authenticating_with_xbox_live")
+        message = "authenticating_with_xbox_live"
     }
     
     @MainActor func setAuthWithXboxXSTS() {
-        message = i18n("authenticating_with_xbox_xsts")
+        message = "authenticating_with_xbox_xsts"
     }
     
     @MainActor func setAuthWithMinecraft() {
-        message = i18n("authenticating_with_minecraft")
+        message = "authenticating_with_minecraft"
     }
     
     @MainActor func setFetchingProfile() {
-        message = i18n("fetching_profile")
+        message = "fetching_profile"
     }
 }

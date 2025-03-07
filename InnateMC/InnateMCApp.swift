@@ -46,10 +46,6 @@ struct InnateMCApp: App {
 
 public let logger = Logger(subsystem: "global", category: "InnateMC")
 
-func i18n(_ str: String) -> LocalizedStringKey {
-    LocalizedStringKey(str)
-}
-
 public extension Logger {
     func error(_ message: String, error: Error) {
         self.error("\(message): \(error.localizedDescription)")

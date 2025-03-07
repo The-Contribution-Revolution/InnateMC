@@ -26,10 +26,10 @@ struct InstanceDeleteSheet: View {
     
     var body: some View {
         VStack(alignment: .center) {
-            Text(i18n("are_you_sure_delete_instance"))
+            Text("are_you_sure_delete_instance")
             
             HStack {
-                Button(i18n("delete")) {
+                Button("delete") {
                     if let index = launcherData.instances.firstIndex(of: instanceToDelete) {
                         if let selectedInstance, selectedInstance == instanceToDelete {
                             self.selectedInstance = nil
@@ -42,7 +42,7 @@ struct InstanceDeleteSheet: View {
                 }
                 .padding()
                 
-                Button(i18n("cancel")) {
+                Button("cancel") {
                     showDeleteSheet = false
                 }
                 .padding()

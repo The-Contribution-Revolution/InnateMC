@@ -110,7 +110,6 @@
 		64C41C1429366CAF00014E0F /* ValueKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C41C1329366CAF00014E0F /* ValueKeys.swift */; };
 		64C5621429C083AA003402F0 /* InstanceProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C5621329C083AA003402F0 /* InstanceProcess.swift */; };
 		64CE1092297864A700366372 /* ImageLogoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64CE1091297864A700366372 /* ImageLogoPickerView.swift */; };
-		64DC9E4829E67427005DE585 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 64DC9E4A29E67427005DE585 /* Localizable.strings */; };
 		64E1F8C72A0FBB31006D68B6 /* MicrosoftAccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E1F8C62A0FBB31006D68B6 /* MicrosoftAccessToken.swift */; };
 		64E1F8C92A0FBDE7006D68B6 /* MicrosoftAuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E1F8C82A0FBDE7006D68B6 /* MicrosoftAuthError.swift */; };
 		64E459EF2938BBEF00F82A2B /* InstanceCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E459EE2938BBEF00F82A2B /* InstanceCommands.swift */; };
@@ -136,6 +135,7 @@
 		64FA2A982A0F81D50042A4A7 /* XboxLiveAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FA2A972A0F81D50042A4A7 /* XboxLiveAuth.swift */; };
 		64FC5B292A5805FB009D0050 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = 64FC5B282A5805FB009D0050 /* Zip */; };
 		64FE2D40293BA78B007414CB /* InstanceConsoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FE2D3F293BA78B007414CB /* InstanceConsoleView.swift */; };
+		F3AF15272D7BBAE8005637A3 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = F3AF15262D7BBAE8005637A3 /* Localizable.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -260,7 +260,6 @@
 		64C41C1329366CAF00014E0F /* ValueKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueKeys.swift; sourceTree = "<group>"; };
 		64C5621329C083AA003402F0 /* InstanceProcess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceProcess.swift; sourceTree = "<group>"; };
 		64CE1091297864A700366372 /* ImageLogoPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLogoPickerView.swift; sourceTree = "<group>"; };
-		64DC9E4929E67427005DE585 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		64E1F8C62A0FBB31006D68B6 /* MicrosoftAccessToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrosoftAccessToken.swift; sourceTree = "<group>"; };
 		64E1F8C82A0FBDE7006D68B6 /* MicrosoftAuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrosoftAuthError.swift; sourceTree = "<group>"; };
 		64E459EE2938BBEF00F82A2B /* InstanceCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceCommands.swift; sourceTree = "<group>"; };
@@ -285,7 +284,7 @@
 		64FA2A952A0F76FA0042A4A7 /* MicrosoftAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrosoftAccountViewModel.swift; sourceTree = "<group>"; };
 		64FA2A972A0F81D50042A4A7 /* XboxLiveAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XboxLiveAuth.swift; sourceTree = "<group>"; };
 		64FE2D3F293BA78B007414CB /* InstanceConsoleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceConsoleView.swift; sourceTree = "<group>"; };
-		FB618B9329EB3ACD005418E5 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F3AF15262D7BBAE8005637A3 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -602,7 +601,7 @@
 				64E459F22938C7AC00F82A2B /* LauncherData.swift */,
 				64C334DC2922523F00BB8570 /* Assets.xcassets */,
 				64C334E12922523F00BB8570 /* InnateMC.entitlements */,
-				64DC9E4A29E67427005DE585 /* Localizable.strings */,
+				F3AF15262D7BBAE8005637A3 /* Localizable.xcstrings */,
 			);
 			path = InnateMC;
 			sourceTree = "<group>";
@@ -814,7 +813,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				64DC9E4829E67427005DE585 /* Localizable.strings in Resources */,
+				F3AF15272D7BBAE8005637A3 /* Localizable.xcstrings in Resources */,
 				64C33509292272F600BB8570 /* .gitignore in Resources */,
 				64C3350C2922B0B500BB8570 /* LICENSE in Resources */,
 				64C334DD2922523F00BB8570 /* Assets.xcassets in Resources */,
@@ -970,18 +969,6 @@
 		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-		64DC9E4A29E67427005DE585 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				64DC9E4929E67427005DE585 /* en */,
-				FB618B9329EB3ACD005418E5 /* de */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		649C8DD9297D5ABE000352F2 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1082,12 +1069,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -1140,11 +1129,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
 			name = Release;
