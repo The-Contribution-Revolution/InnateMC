@@ -20,7 +20,7 @@ import os
 
 @main
 struct InnateMCApp: App {
-    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     @StateObject private var launcherData = LauncherData()
     
     var body: some Scene {
