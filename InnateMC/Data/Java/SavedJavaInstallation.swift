@@ -121,14 +121,14 @@ public class SavedJavaInstallation: Codable, Identifiable, ObservableObject {
     }
     
     public func getDebugString() -> String { // TODO: computed property? allows using a keypath in Table
-        if let javaVersion = javaVersion {
-            if let javaVendor = javaVendor {
+        if let javaVersion {
+            if let javaVendor {
                 "\(javaVendor) \(javaVersion)"
             } else {
                 javaVersion
             }
         } else {
-            if let javaVendor = javaVendor {
+            if let javaVendor {
                 javaVendor
             } else {
                 "Unknown"

@@ -46,7 +46,7 @@ struct InstanceSpecificCommands: View {
         .disabled(selectedInstance == nil)
         .keyboardShortcut("f")
         .onChange(of: selectedInstance) { newValue in
-            if let newValue = newValue {
+            if let newValue {
                 instanceStarred = newValue.isStarred
                 instanceIsntLaunched = !LauncherData.instance.launchedInstances.contains(where: { $0.0 == newValue })
                 instanceIsntInEdit = !LauncherData.instance.editModeInstances.contains(where: { $0 == newValue })

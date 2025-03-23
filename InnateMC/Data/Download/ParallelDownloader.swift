@@ -52,7 +52,7 @@ public struct ParallelDownloader {
                 }
                 
                 let taskUrl = task.sourceUrl
-                let downloadTask = session.downloadTask(with: taskUrl) { (tempUrl, response, error) in
+                let downloadTask = session.downloadTask(with: taskUrl) { tempUrl, _, error in
                     if error != nil {
                         session.invalidateAndCancel()
                         DispatchQueue.main.async {
@@ -61,7 +61,7 @@ public struct ParallelDownloader {
                         
                         downloadGroup.leave()
                         return
-                    } else if let tempUrl = tempUrl {
+                    } else if let tempUrl {
                         do {
                             // Verify sha hash
                             if !checkHash(path: tempUrl, expected: task.sha1) {
